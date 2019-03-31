@@ -6,7 +6,16 @@ import (
 	"strings"
 )
 
-func ProcessLine(s string, c *Config) string {
+type LineProcessor struct {
+	Config *Config
+}
+
+func NewLineProcessor(c *Config) *LineProcessor {
+	return &LineProcessor{Config: c}
+
+}
+
+func (p LineProcessor) ProcessLine(s string) string {
 	i := strings.Index(s, "INSERT")
 	if i !=0 {
 		// We are only processing lines that begin with INSERT
@@ -18,7 +27,7 @@ func ProcessLine(s string, c *Config) string {
 
 	switch stmt := stmt.(type) {
 	case *sqlparser.Insert:
-		if Contains(c.Tables, stmt.Table.Name.String()) {
+		if Contains(p.Config.Tables, stmt.Table.Name.String()) {
 			fmt.Println("YES")
 		}
 		return stmt.Table.Name.String() + "\n"

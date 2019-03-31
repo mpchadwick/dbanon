@@ -15,12 +15,13 @@ func main() {
 	// We don't want to hear about it
 	log.SetOutput(ioutil.Discard)
 
-	config := dbanon.NewConfig()
+	c := dbanon.NewConfig()
+	p := dbanon.NewLineProcessor(c)
 
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		text, err := reader.ReadString('\n')
-		fmt.Print(dbanon.ProcessLine(text, config))
+		fmt.Print(p.ProcessLine(text))
 
 		if err != nil {
 			break
