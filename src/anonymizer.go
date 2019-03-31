@@ -1,4 +1,4 @@
-package anonymizer
+package dbanon
 
 import "fmt"
 import "github.com/xwb1989/sqlparser"

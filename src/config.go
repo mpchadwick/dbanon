@@ -1,4 +1,4 @@
-package anonymizer
+package dbanon
 
 import "gopkg.in/yaml.v2"
 import "io/ioutil"
