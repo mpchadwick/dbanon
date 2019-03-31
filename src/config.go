@@ -1,4 +1,4 @@
-package anomymizer
+package anonymizer
 
 import "gopkg.in/yaml.v2"
 import "io/ioutil"
