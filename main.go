@@ -18,7 +18,7 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		text, err := reader.ReadString('\n')
-		fmt.Print(dbanon.Anonymize(text, config))
+		fmt.Print(dbanon.ProcessLine(text, config))
 
 		if err != nil {
 			break
