@@ -1,0 +1,3 @@
+# https://github.com/meanbee/magedbm2/blob/fc8bbf9a97db2c27d0cd8a1153dda8c95b6f5996/etc/config.yml#L82
+tables:
+  - admin_user

@@ -13,10 +13,12 @@ func main() {
 	// We don't want to hear about it
 	log.SetOutput(ioutil.Discard)
 
+	config := anomymizer.NewConfig()
+
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		text, err := reader.ReadString('\n')
-		fmt.Print(anomymizer.Anonymize(text))
+		fmt.Print(anomymizer.Anonymize(text, config))
 
 		if err != nil {
 			break
