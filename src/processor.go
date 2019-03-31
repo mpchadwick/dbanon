@@ -3,9 +3,16 @@ package dbanon
 import (
 	"fmt"
 	"github.com/xwb1989/sqlparser"
+	"strings"
 )
 
 func ProcessLine(s string, c *Config) string {
+	i := strings.Index(s, "INSERT")
+	if i !=0 {
+		// We are only processing lines that begin with INSERT
+		return s
+	}
+
 	stmt, _ := sqlparser.Parse(s)
 
 
