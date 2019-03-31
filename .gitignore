@@ -1,2 +1,3 @@
 dbanon
 tmp/*
+src/bindata.go
