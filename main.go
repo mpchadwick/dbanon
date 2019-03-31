@@ -1,11 +1,13 @@
 package main
 
-import "bufio"
-import "fmt"
-import "github.com/mpchadwick/dbanon/src"
-import "io/ioutil"
-import "log"
-import "os"
+import (
+	"bufio"
+	"fmt"
+	"github.com/mpchadwick/dbanon/src"
+	"io/ioutil"
+	"log"
+	"os"
+)
 
 func main() {
 	// sqlparser can be noisy

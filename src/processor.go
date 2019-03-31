@@ -1,7 +1,9 @@
 package dbanon
 
-import "fmt"
-import "github.com/xwb1989/sqlparser"
+import (
+	"fmt"
+	"github.com/xwb1989/sqlparser"
+)
 
 func ProcessLine(s string, c *Config) string {
 	stmt, _ := sqlparser.Parse(s)
