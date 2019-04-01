@@ -5,7 +5,10 @@ import (
 )
 
 type Config struct {
-	Tables []string
+	Tables []struct {
+		Name string `yaml:"name"`
+		Columns map[string]string `yaml:"columns"`
+	}
 }
 
 func NewConfig() *Config {
@@ -17,3 +20,13 @@ func NewConfig() *Config {
 	return c
 }
 
+
+func (c Config) ShouldAnonymize(t string) bool {
+	for _, table := range c.Tables {
+		if (table.Name == t) {
+			return true
+		}
+	}
+
+	return false
+}

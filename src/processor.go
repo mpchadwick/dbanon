@@ -1,7 +1,6 @@
 package dbanon
 
 import (
-	"fmt"
 	"github.com/xwb1989/sqlparser"
 	"strings"
 )
@@ -27,21 +26,11 @@ func (p LineProcessor) ProcessLine(s string) string {
 
 	switch stmt := stmt.(type) {
 	case *sqlparser.Insert:
-		if Contains(p.Config.Tables, stmt.Table.Name.String()) {
-			fmt.Println("YES")
+		if p.Config.ShouldAnonymize(stmt.Table.Name.String()) {
+			return "ANONYMIZING " + stmt.Table.Name.String() + "\n"
 		}
 		return stmt.Table.Name.String() + "\n"
 	default:
-		return ""
+		return s
 	}
-}
-
-// Contains tells whether a contains x.
-func Contains(a []string, x string) bool {
-	for _, n := range a {
-		if x == n {
-			return true
-		}
-	}
-	return false
 }

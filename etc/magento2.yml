@@ -1,3 +1,29 @@
 # https://github.com/meanbee/magedbm2/blob/fc8bbf9a97db2c27d0cd8a1153dda8c95b6f5996/etc/config.yml#L82
 tables:
-  - admin_user
+  - name: admin_user
+    columns:
+      firstname: firstname
+      lastname: lastname
+      email: email
+      username: username
+      password: password
+  - name: sales_order
+    columns:
+      customer_dob: datetime
+      customer_email: email
+      customer_prefix: title
+      customer_firstname: firstname
+      customer_middlename: firstname
+      customer_lastname: lastname
+      customer_suffix: customer_suffix
+      remote_ip: ipv4
+      x_forwarded_for: ipv4
+  - name: sales_order_address
+    columns:
+      region: state
+      postcode: postcode
+      lastname: lastname
+      street: street
+      city: city
+      email: email
+      telephone: telephone
