@@ -16,7 +16,7 @@ func NewLineProcessor(c *Config) *LineProcessor {
 
 func (p LineProcessor) ProcessLine(s string) string {
 	i := strings.Index(s, "INSERT")
-	if i !=0 {
+	if i != 0 {
 		// We are only processing lines that begin with INSERT
 		return s
 	}
