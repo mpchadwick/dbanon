@@ -31,18 +31,18 @@ func (c Config) ProcessTable(t string) bool {
 	return false
 }
 
-func (c Config) ProcessColumn(t string, col string) bool {
+func (c Config) ProcessColumn(t string, col string) (bool, string) {
 	for _, table := range c.Tables {
 		if (table.Name != t) {
 			continue
 		}
 
-		for k, _ := range table.Columns {
+		for k, v := range table.Columns {
 			if k == col {
-				return true
+				return true, v
 			}
 		}
 	}
 
-	return false
+	return false, ""
 }

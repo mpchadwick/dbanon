@@ -7,11 +7,11 @@ import (
 
 type LineProcessor struct {
 	Config *Config
+	Provider *Provider
 }
 
-func NewLineProcessor(c *Config) *LineProcessor {
-	return &LineProcessor{Config: c}
-
+func NewLineProcessor(c *Config, p *Provider) *LineProcessor {
+	return &LineProcessor{Config: c, Provider: p}
 }
 
 func (p LineProcessor) ProcessLine(s string) string {
@@ -39,7 +39,9 @@ func (p LineProcessor) ProcessLine(s string) string {
 
 				column := stmt.Columns[i].String()
 
-				if !p.Config.ProcessColumn(table, column) {
+				result, dataType := p.Config.ProcessColumn(table, column)
+
+				if !result {
 					continue
 				}
 
@@ -47,13 +49,13 @@ func (p LineProcessor) ProcessLine(s string) string {
 				case *sqlparser.SQLVal:
 					switch v.Type {
 					default:
-						v.Val = []byte("999")
+						v.Val = []byte(p.Provider.Get(dataType))
 					}
 				}
 			}
 		}
 
-		return sqlparser.String(stmt)
+		return sqlparser.String(stmt) + ";\n"
 
 	default:
 		return s
