@@ -21,10 +21,26 @@ func NewConfig() *Config {
 }
 
 
-func (c Config) ShouldAnonymize(t string) bool {
+func (c Config) ProcessTable(t string) bool {
 	for _, table := range c.Tables {
 		if (table.Name == t) {
 			return true
+		}
+	}
+
+	return false
+}
+
+func (c Config) ProcessColumn(t string, col string) bool {
+	for _, table := range c.Tables {
+		if (table.Name != t) {
+			continue
+		}
+
+		for k, _ := range table.Columns {
+			if k == col {
+				return true
+			}
 		}
 	}
 

@@ -26,18 +26,27 @@ func (p LineProcessor) ProcessLine(s string) string {
 	switch stmt := stmt.(type) {
 	case *sqlparser.Insert:
 
-		if !p.Config.ShouldAnonymize(stmt.Table.Name.String()) {
+		table := stmt.Table.Name.String()
+
+		if !p.Config.ProcessTable(table) {
 			return s
 		}
 
 		// TODO: Correctly anonymize
 		rows := stmt.Rows.(sqlparser.Values)
 		for _, vt := range rows {
-			for _, e := range vt {
+			for i, e := range vt {
+
+				column := stmt.Columns[i].String()
+
+				if !p.Config.ProcessColumn(table, column) {
+					continue
+				}
+
 				switch v := e.(type) {
 				case *sqlparser.SQLVal:
 					switch v.Type {
-					case sqlparser.IntVal:
+					default:
 						v.Val = []byte("999")
 					}
 				}
