@@ -3,6 +3,7 @@ package dbanon
 import (
 	"errors"
 	"gopkg.in/yaml.v2"
+	"io/ioutil"
 )
 
 type Config struct {
@@ -20,7 +21,19 @@ func NewConfig(requested string) (*Config, error) {
 		return c, errors.New("You must specify a config")
 	}
 
-	source, _ := Asset("etc/magento2.yml")
+	var source []byte
+	var err error
+
+	switch requested {
+	case "magento2":
+		source, _ = Asset("etc/magento2.yml")
+	default:
+		source, err = ioutil.ReadFile(requested)
+		if err != nil {
+			return c, err
+		}
+	}
+
 	yaml.Unmarshal(source, &c)
 
 	return c, nil
