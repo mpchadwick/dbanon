@@ -4,6 +4,23 @@ import (
 	"testing"
 )
 
+func TestNewConfig(t *testing.T) {
+	_, err1 := NewConfig("")
+	if err1 == nil {
+		t.Error("Got no error want error")
+	}
+
+	_, err2 := NewConfig("magento2")
+	if err2 != nil {
+		t.Error("Got error want no error")
+	}
+
+	_, err3 := NewConfig("doesnt-exist")
+	if err3 == nil {
+		t.Error("Got no error want error")
+	}
+}
+
 func TestProcessTable(t *testing.T) {
 	c, _ := NewConfig("magento2")
 
