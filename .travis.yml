@@ -4,3 +4,6 @@ go:
   - 1.12
 
 go_import_path: github.com/mpchadwick/dbanon
+
+before_install:
+  - go get -u github.com/shuLhan/go-bindata/...
