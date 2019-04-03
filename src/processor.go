@@ -32,7 +32,6 @@ func (p LineProcessor) ProcessLine(s string) string {
 			return s
 		}
 
-		// TODO: Correctly anonymize
 		rows := stmt.Rows.(sqlparser.Values)
 		for _, vt := range rows {
 			for i, e := range vt {
