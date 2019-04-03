@@ -1,3 +1,4 @@
 dbanon
 tmp/*
 src/bindata.go
+.DS_Store
