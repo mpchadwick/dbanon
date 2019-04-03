@@ -1,6 +1,6 @@
 # dbanon
 
-![](https://travis-ci.org/mpchadwick/dbanon.svg?branch=master)
+[![Build Status](https://travis-ci.org/mpchadwick/dbanon.svg?branch=master)](https://travis-ci.org/mpchadwick/dbanon)
 
 ## Usage
 
