@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-mysqldump --complete-insert mydb | dbanon | gzip > mydb.sql.gz
+mysqldump --complete-insert mydb | dbanon -config=magento2 | gzip > mydb.sql.gz
 ```
 
 ## Limitations
