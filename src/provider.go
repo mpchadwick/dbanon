@@ -12,6 +12,10 @@ func NewProvider() *Provider {
 	return p
 }
 
+type ProviderInterface interface {
+	Get(s string) string
+}
+
 func (p Provider) Get(s string) string {
 	switch s {
 	case "firstname":

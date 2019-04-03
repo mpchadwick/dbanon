@@ -7,10 +7,10 @@ import (
 
 type LineProcessor struct {
 	Config *Config
-	Provider *Provider
+	Provider ProviderInterface
 }
 
-func NewLineProcessor(c *Config, p *Provider) *LineProcessor {
+func NewLineProcessor(c *Config, p ProviderInterface) *LineProcessor {
 	return &LineProcessor{Config: c, Provider: p}
 }
 
