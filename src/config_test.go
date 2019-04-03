@@ -5,7 +5,7 @@ import (
 )
 
 func TestProcessTable(t *testing.T) {
-	c := NewConfig()
+	c, _ := NewConfig("magento2")
 
 	if !c.ProcessTable("admin_user") {
 		t.Error("Got false want true")
@@ -17,7 +17,7 @@ func TestProcessTable(t *testing.T) {
 }
 
 func TestProcessColumn(t *testing.T) {
-	c := NewConfig()
+	c, _ := NewConfig("magento2")
 
 	process, format := c.ProcessColumn("admin_user", "firstname")
 	if !process {

@@ -1,6 +1,7 @@
 package dbanon
 
 import (
+	"errors"
 	"gopkg.in/yaml.v2"
 )
 
@@ -11,13 +12,18 @@ type Config struct {
 	}
 }
 
-func NewConfig() *Config {
+func NewConfig(requested string) (*Config, error) {
+
 	c := &Config{}
+
+	if requested == "" {
+		return c, errors.New("You must specify a config")
+	}
 
 	source, _ := Asset("etc/magento2.yml")
 	yaml.Unmarshal(source, &c)
 
-	return c
+	return c, nil
 }
 
 
