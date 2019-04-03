@@ -1,5 +1,7 @@
 # dbanon
 
+![](https://travis-ci.org/mpchadwick/dbanon.svg?branch=master)
+
 ## Usage
 
 ```
