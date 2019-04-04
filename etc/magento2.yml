@@ -32,3 +32,7 @@ tables:
       middlename: firstname
       suffix: customer_suffix
       company: company
+  - name: newsletter_subscriber
+    columns:
+      subscriber_email: email
+      subscriber_confirm_code: md5

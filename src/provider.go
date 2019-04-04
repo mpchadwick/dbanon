@@ -46,6 +46,8 @@ func (p Provider) Get(s string) string {
 		return faker.Name().Prefix()
 	case "company":
 		return faker.Company().Name()
+	case "md5":
+		return faker.Lorem().Characters(32)
 	}
 
 	return ""
