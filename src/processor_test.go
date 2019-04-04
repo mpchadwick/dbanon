@@ -1,6 +1,7 @@
 package dbanon
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -24,5 +25,10 @@ func TestProcessLine(t *testing.T) {
 	r1 := processor.ProcessLine("foobar")
 	if r1 != "foobar" {
 		t.Errorf("Got %s wanted foobar", r1)
+	}
+
+	r2 := processor.ProcessLine("INSERT INTO `admin_user` (`firstname`) VALUES ('bob');")
+	if strings.Contains(r2, "bob") {
+		t.Error("Got bob wanted no bob")
 	}
 }
