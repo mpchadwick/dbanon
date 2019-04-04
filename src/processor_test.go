@@ -31,4 +31,9 @@ func TestProcessLine(t *testing.T) {
 	if strings.Contains(r2, "bob") {
 		t.Error("Got bob wanted no bob")
 	}
+
+	r3 := processor.ProcessLine("INSERT INTO `admin_user` (`user_id`) VALUES (1337);")
+	if !strings.Contains(r3, "1337") {
+		t.Error("Got no 1337 wanted 1337")
+	}
 }
