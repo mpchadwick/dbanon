@@ -27,3 +27,8 @@ tables:
       city: city
       email: email
       telephone: telephone
+      firstname: firstname
+      prefix: title
+      middlename: firstname
+      suffix: customer_suffix
+      company: company
