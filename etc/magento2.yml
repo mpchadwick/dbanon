@@ -7,6 +7,37 @@ tables:
       email: email
       username: username
       password: password
+  - name: newsletter_subscriber
+    columns:
+      subscriber_email: email
+      subscriber_confirm_code: md5
+  - name: quote
+    columns:
+      customer_email: email
+      customer_prefix: title
+      customer_firstname: firstname
+      customer_middlename: firstname
+      customer_lastname: lastname
+      customer_suffix: customer_suffix
+      customer_dob: datetime
+      customer_note: note255
+      remote_ip: ipv4
+  - name: quote_address
+    columns:
+      email: email
+      prefix: title
+      firstname: firstname
+      lastname: lastname
+      suffix: customer_suffix
+      company: company
+      street: street
+      city: city
+      region: state
+      region_id: region_od
+      postcode: postcode
+      country_id: country_code
+      telephone: telephone
+      fax: telephone
   - name: sales_order
     columns:
       customer_dob: datetime
@@ -32,7 +63,3 @@ tables:
       middlename: firstname
       suffix: customer_suffix
       company: company
-  - name: newsletter_subscriber
-    columns:
-      subscriber_email: email
-      subscriber_confirm_code: md5

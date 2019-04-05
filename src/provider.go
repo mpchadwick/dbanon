@@ -36,6 +36,8 @@ func (p Provider) Get(s string) string {
 		return faker.Internet().IpV4Address()
 	case "state":
 		return faker.Address().State()
+	case "city":
+		return faker.Address().City()
 	case "postcode":
 		return faker.Address().Postcode()
 	case "street":
@@ -48,6 +50,16 @@ func (p Provider) Get(s string) string {
 		return faker.Company().Name()
 	case "md5":
 		return faker.Lorem().Characters(32)
+	case "note255":
+		return faker.Lorem().Characters(50)
+	case "region_id":
+		// https://github.com/meanbee/magedbm2/blob/fc8bbf9a97db2c27d0cd8a1153dda8c95b6f5996/src/Anonymizer/Formatter/Address/RegionId.php#L24
+		return faker.Number().Between(1, 550)
+	case "country_code":
+		return faker.Address().CountryCode()
+	case "vat_number":
+		// https://github.com/meanbee/magedbm2/blob/fc8bbf9a97db2c27d0cd8a1153dda8c95b6f5996/src/Anonymizer/Formatter/Company/VatNumber.php#L21
+		return "GB" + faker.Number().Between(100000000, 999999999)
 	}
 
 	return ""
