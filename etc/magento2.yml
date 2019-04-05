@@ -38,6 +38,7 @@ tables:
       country_id: country_code
       telephone: telephone
       fax: telephone
+      vat_id: vat_number
   - name: sales_order
     columns:
       customer_dob: datetime
