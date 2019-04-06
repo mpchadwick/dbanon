@@ -30,34 +30,37 @@ func (p LineProcessor) ProcessLine(s string) string {
 
 		processor := p.Config.ProcessTable(table)
 
-		if processor == "" {
+		switch processor {
+		case "":
 			return s
-		}
+		case "table":
+			rows := stmt.Rows.(sqlparser.Values)
+			for _, vt := range rows {
+				for i, e := range vt {
 
-		rows := stmt.Rows.(sqlparser.Values)
-		for _, vt := range rows {
-			for i, e := range vt {
+					column := stmt.Columns[i].String()
 
-				column := stmt.Columns[i].String()
+					result, dataType := p.Config.ProcessColumn(table, column)
 
-				result, dataType := p.Config.ProcessColumn(table, column)
+					if !result {
+						continue
+					}
 
-				if !result {
-					continue
-				}
-
-				switch v := e.(type) {
-				case *sqlparser.SQLVal:
-					switch v.Type {
-					default:
-						v.Val = []byte(p.Provider.Get(dataType))
+					switch v := e.(type) {
+					case *sqlparser.SQLVal:
+						switch v.Type {
+						default:
+							v.Val = []byte(p.Provider.Get(dataType))
+						}
 					}
 				}
 			}
+			return sqlparser.String(stmt) + ";\n"
+		case "eav":
+			return s
+		default:
+			return s
 		}
-
-		return sqlparser.String(stmt) + ";\n"
-
 	default:
 		return s
 	}
