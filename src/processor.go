@@ -32,12 +32,13 @@ func (p LineProcessor) ProcessLine(s string) string {
 
 		switch processor {
 		case "":
+			// This table doesn't need to be processed
 			return s
 		case "table":
+			// "Classic" processing
 			rows := stmt.Rows.(sqlparser.Values)
 			for _, vt := range rows {
 				for i, e := range vt {
-
 					column := stmt.Columns[i].String()
 
 					result, dataType := p.Config.ProcessColumn(table, column)
@@ -57,7 +58,25 @@ func (p LineProcessor) ProcessLine(s string) string {
 			}
 			return sqlparser.String(stmt) + ";\n"
 		case "eav":
-			return s
+			// EAV processing
+			var attributeId string
+			rows := stmt.Rows.(sqlparser.Values)
+			for _, vt := range rows {
+				for i, e := range vt {
+					column := stmt.Columns[i].String()
+					if column == "attribute_id" {
+						switch v := e.(type) {
+						case *sqlparser.SQLVal:
+							switch v.Type {
+							default:
+								attributeId = string(v.Val)
+							}
+						}
+					}
+				}
+			}
+
+			return "FOOO" + attributeId + "\n"
 		default:
 			return s
 		}
