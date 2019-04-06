@@ -11,6 +11,10 @@ type Config struct {
 		Name string `yaml:"name"`
 		Columns map[string]string `yaml:"columns"`
 	}
+	Eav []struct {
+		Name string `yaml:"name"`
+		Attributes map[string]string `yaml:"attributes"`
+	}
 }
 
 func NewConfig(requested string) (*Config, error) {

@@ -91,3 +91,9 @@ tables:
   - name: sendfriend_log
     columns:
       ip: ipv4
+eav:
+  - name: customer_entity_varchar
+    attributes:
+      firstname: firstname
+      lastname: lastname
+      taxvat: vat_number
