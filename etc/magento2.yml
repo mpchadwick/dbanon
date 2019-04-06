@@ -1,4 +1,5 @@
 # https://github.com/meanbee/magedbm2/blob/fc8bbf9a97db2c27d0cd8a1153dda8c95b6f5996/etc/config.yml#L82
+# https://github.com/DivanteLtd/anonymizer/blob/afac8e2f8f0ab49216ed1f5a6aca50bd13d67253/lib/anonymizer/project/basic/magento_2_0.json
 tables:
   - name: admin_user
     columns:
@@ -7,6 +8,12 @@ tables:
       email: email
       username: username
       password: password
+  - name: customer_entity
+    columns:
+      email: email
+      firstname: firstname
+      lastname: lastname
+      vat_id: vat_number
   - name: newsletter_subscriber
     columns:
       subscriber_email: email
