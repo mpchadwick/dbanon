@@ -14,6 +14,17 @@ tables:
       firstname: firstname
       lastname: lastname
       vat_id: vat_number
+  - name: customer_address_entity
+    columns:
+      city: city
+      company: company
+      fax: telephone
+      firstname: firstname
+      lastname: lastname
+      postcode: postcode
+      street: street
+      telephone: telephone
+      vat_id: vat_number
   - name: newsletter_subscriber
     columns:
       subscriber_email: email
