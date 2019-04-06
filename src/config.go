@@ -44,14 +44,20 @@ func NewConfig(requested string) (*Config, error) {
 }
 
 
-func (c Config) ProcessTable(t string) bool {
+func (c Config) ProcessTable(t string) string {
 	for _, table := range c.Tables {
 		if (table.Name == t) {
-			return true
+			return "table"
 		}
 	}
 
-	return false
+	for _, e := range c.Eav {
+		if (e.Name == t) {
+			return "eav"
+		}
+	}
+
+	return ""
 }
 
 func (c Config) ProcessColumn(t string, col string) (bool, string) {

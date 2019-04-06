@@ -24,12 +24,14 @@ func TestNewConfig(t *testing.T) {
 func TestProcessTable(t *testing.T) {
 	c, _ := NewConfig("magento2")
 
-	if !c.ProcessTable("admin_user") {
-		t.Error("Got false want true")
+	r1 := c.ProcessTable("admin_user")
+	if r1 != "table" {
+		t.Errorf("Got %s wanted table", r1)
 	}
 
-	if c.ProcessTable("catalog_product") {
-		t.Error("Got true want false")
+	r2 := c.ProcessTable("catalog_product")
+	if r2 != "" {
+		t.Errorf("Got %s wanted empty string", r2)
 	}
 }
 

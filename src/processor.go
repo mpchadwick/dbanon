@@ -28,7 +28,9 @@ func (p LineProcessor) ProcessLine(s string) string {
 
 		table := stmt.Table.Name.String()
 
-		if !p.Config.ProcessTable(table) {
+		processor := p.Config.ProcessTable(table)
+
+		if processor == "" {
 			return s
 		}
 
