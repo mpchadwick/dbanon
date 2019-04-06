@@ -39,6 +39,12 @@ tables:
       telephone: telephone
       fax: telephone
       vat_id: vat_number
+  - name: rating_option_vote
+    columns:
+      remote_ip: ipv4
+  - name: review_detail
+    columns:
+      nickname: username
   - name: sales_order
     columns:
       customer_dob: datetime
@@ -64,3 +70,6 @@ tables:
       middlename: firstname
       suffix: customer_suffix
       company: company
+  - name: sendfriend_log
+    columns:
+      ip: ipv4
