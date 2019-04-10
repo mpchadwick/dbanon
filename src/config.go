@@ -43,6 +43,10 @@ func NewConfig(requested string) (*Config, error) {
 	return c, nil
 }
 
+func (c Config) String() ([]byte, error) {
+	return yaml.Marshal(c)
+}
+
 
 func (c Config) ProcessTable(t string) string {
 	for _, table := range c.Tables {

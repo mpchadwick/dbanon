@@ -23,7 +23,9 @@ func main() {
 
 	args := flag.Args()
 	if len(args) > 0 && args[0] == "map-eav" {
-		fmt.Println("map-eav")
+		eav := dbanon.NewEav(config)
+		out, _ := eav.Config.String()
+		fmt.Print(string(out))
 		os.Exit(0)
 	}
 
