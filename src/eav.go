@@ -24,13 +24,12 @@ func (eav Eav) ProcessLine(s string) {
 		return
 	}
 
-	var entityId string
-
 	stmt, _ := sqlparser.Parse(s)
 	switch stmt := stmt.(type) {
 	case *sqlparser.Insert:
 		table := stmt.Table.Name.String()
 		if table == "eav_entity_type" {
+			var entityTypeId string
 			rows := stmt.Rows.(sqlparser.Values)
 			for _, vt := range rows {
 				for i, e := range vt {
@@ -38,10 +37,40 @@ func (eav Eav) ProcessLine(s string) {
 					switch v := e.(type) {
 					case *sqlparser.SQLVal:
 						if column == "entity_type_id" {
-							entityId = string(v.Val)
+							entityTypeId = string(v.Val)
 						}
 						if column == "entity_type_code" {
-							eav.entityMap[entityId] = string(v.Val)
+							eav.entityMap[string(v.Val)] = entityTypeId
+						}
+					}
+				}
+			}
+		}
+		if table == "eav_attribute" {
+			var attributeId string
+			var entityTypeId string
+			rows := stmt.Rows.(sqlparser.Values)
+			for _, vt := range rows {
+				for i, e := range vt {
+					column := stmt.Columns[i].String()
+					switch v := e.(type) {
+					case *sqlparser.SQLVal:
+						if column == "attribute_id" {
+							attributeId = string(v.Val)
+						}
+						if column == "entity_type_id" {
+							entityTypeId = string(v.Val)
+						}
+						if column == "attribute_code" {
+							for _, eavConfig := range eav.Config.Eav {
+								if eav.entityMap[eavConfig.Name] == entityTypeId {
+									for eavK, eavV := range eavConfig.Attributes {
+										if eavK == string(v.Val) {
+											eavConfig.Attributes[attributeId] = eavV
+										}
+									}
+								}
+							}
 						}
 					}
 				}
