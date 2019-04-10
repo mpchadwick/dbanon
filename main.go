@@ -21,6 +21,12 @@ func main() {
 		os.Exit(1)
 	}
 
+	args := flag.Args()
+	if len(args) > 0 && args[0] == "map-eav" {
+		fmt.Println("map-eav")
+		os.Exit(0)
+	}
+
 	provider := dbanon.NewProvider()
 	processor := dbanon.NewLineProcessor(config, provider)
 	reader := bufio.NewReader(os.Stdin)
