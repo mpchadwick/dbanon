@@ -9,3 +9,7 @@ func NewEav(c *Config) *Eav {
 
 	return e
 }
+
+func (e Eav) ProcessLine(s string) {
+
+}
