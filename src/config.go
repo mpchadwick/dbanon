@@ -19,7 +19,6 @@ type Config struct {
 }
 
 func NewConfig(requested string) (*Config, error) {
-
 	c := &Config{}
 
 	if requested == "" {

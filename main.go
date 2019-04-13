@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-
 	requested := flag.String("config", "", "Configuration to use. magento2 is included out-of-box. Alternately, supply path to file")
 	flag.Parse()
 
@@ -26,7 +25,6 @@ func main() {
 	// We don't want to hear about it
 	log.SetOutput(ioutil.Discard)
 	reader := bufio.NewReader(os.Stdin)
-
 
 	args := flag.Args()
 	if len(args) > 0 && args[0] == "map-eav" {
