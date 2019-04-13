@@ -33,6 +33,11 @@ func TestProcessTable(t *testing.T) {
 	if r2 != "" {
 		t.Errorf("Got %s wanted empty string", r2)
 	}
+
+	r3 := c.ProcessTable("customer_entity_varchar")
+	if r3 != "eav" {
+		t.Errorf("Got %s wanted eav", r3)
+	}
 }
 
 func TestProcessColumn(t *testing.T) {

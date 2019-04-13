@@ -4,6 +4,7 @@ import (
 	"errors"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"strings"
 )
 
 type Config struct {
@@ -55,8 +56,10 @@ func (c Config) ProcessTable(t string) string {
 		}
 	}
 
-	for _, e := range c.Eav {
-		if (e.Name == t) {
+	eavSuffixes := [5]string{"_datetime", "_decimal", "_int", "_text", "_varchar"}
+
+	for _, v := range eavSuffixes {
+		if strings.HasSuffix(t, v) {
 			return "eav"
 		}
 	}
