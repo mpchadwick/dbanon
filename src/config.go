@@ -60,7 +60,12 @@ func (c Config) ProcessTable(t string) string {
 
 	for _, v := range eavSuffixes {
 		if strings.HasSuffix(t, v) {
-			return "eav"
+			parts := strings.Split(t, "_")
+			for _, e := range c.Eav {
+				if e.Name == parts[0] {
+					return "eav"
+				}
+			}
 		}
 	}
 
