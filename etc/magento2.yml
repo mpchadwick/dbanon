@@ -92,7 +92,7 @@ tables:
     columns:
       ip: ipv4
 eav:
-  - name: customer_entity_varchar
+  - name: customer_entity
     attributes:
       firstname: firstname
       lastname: lastname
