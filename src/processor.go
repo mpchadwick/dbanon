@@ -47,13 +47,8 @@ func (p LineProcessor) ProcessLine(s string) string {
 						continue
 					}
 
-					switch v := e.(type) {
-					case *sqlparser.SQLVal:
-						switch v.Type {
-						default:
-							v.Val = []byte(p.Provider.Get(dataType))
-						}
-					}
+					e.(*sqlparser.SQLVal).Val = []byte(p.Provider.Get(dataType))
+
 				}
 			}
 			return sqlparser.String(stmt) + ";\n"
