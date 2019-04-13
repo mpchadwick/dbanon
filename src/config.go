@@ -87,3 +87,19 @@ func (c Config) ProcessColumn(t string, col string) (bool, string) {
 
 	return false, ""
 }
+
+func (c Config) ProcessEav(t string, attributeId string) (bool, string) {
+	parts := strings.Split(t, "_")
+	entity := parts[0]
+	for _, e := range c.Eav {
+		if e.Name == entity {
+			for k, v := range e.Attributes {
+				if k == attributeId {
+					return true, v
+				}
+			}
+		}
+	}
+
+	return false, ""
+}

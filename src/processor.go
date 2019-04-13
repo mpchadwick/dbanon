@@ -1,6 +1,7 @@
 package dbanon
 
 import (
+	"fmt"
 	"github.com/xwb1989/sqlparser"
 	"strings"
 )
@@ -45,25 +46,37 @@ func (p LineProcessor) ProcessLine(s string) string {
 					continue
 				}
 
-				e.(*sqlparser.SQLVal).Val = []byte(p.Provider.Get(dataType))
-
+				switch v := e.(type) {
+				case *sqlparser.SQLVal:
+					v.Val = []byte(p.Provider.Get(dataType))
+				}
 			}
 		}
 		return sqlparser.String(insert) + ";\n"
 	case "eav":
 		// EAV processing
 		var attributeId string
+		var result bool
+		var dataType string
 		rows := insert.Rows.(sqlparser.Values)
 		for _, vt := range rows {
 			for i, e := range vt {
 				column := insert.Columns[i].String()
-				if column == "attribute_id" {
-					attributeId = string(e.(*sqlparser.SQLVal).Val)
+				switch v := e.(type) {
+				case *sqlparser.SQLVal:
+					if column == "attribute_id" {
+						attributeId = string(v.Val)
+						result, dataType = p.Config.ProcessEav(table, attributeId)
+						fmt.Printf("Table: %s", table)
+					}
+					if column == "value" && result {
+						fmt.Println("REPLACING EAV")
+						v.Val = []byte(p.Provider.Get(dataType))
+					}
 				}
 			}
 		}
-
-		return "FOOO" + attributeId + "\n"
+		return sqlparser.String(insert) + ";\n"
 	default:
 		return s
 	}
