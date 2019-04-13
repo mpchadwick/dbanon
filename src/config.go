@@ -60,7 +60,7 @@ func (c Config) ProcessTable(t string) string {
 
 	for _, v := range eavSuffixes {
 		if strings.HasSuffix(t, v) {
-			parts := strings.Split(t, "_")
+			parts := strings.Split(t, "_entity")
 			for _, e := range c.Eav {
 				if e.Name == parts[0] {
 					return "eav"
@@ -89,7 +89,7 @@ func (c Config) ProcessColumn(t string, col string) (bool, string) {
 }
 
 func (c Config) ProcessEav(t string, attributeId string) (bool, string) {
-	parts := strings.Split(t, "_")
+	parts := strings.Split(t, "_entity")
 	entity := parts[0]
 	for _, e := range c.Eav {
 		if e.Name == entity {

@@ -1,7 +1,6 @@
 package dbanon
 
 import (
-	"fmt"
 	"github.com/xwb1989/sqlparser"
 	"strings"
 )
@@ -67,10 +66,8 @@ func (p LineProcessor) ProcessLine(s string) string {
 					if column == "attribute_id" {
 						attributeId = string(v.Val)
 						result, dataType = p.Config.ProcessEav(table, attributeId)
-						fmt.Printf("Table: %s", table)
 					}
 					if column == "value" && result {
-						fmt.Println("REPLACING EAV")
 						v.Val = []byte(p.Provider.Get(dataType))
 					}
 				}
