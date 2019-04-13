@@ -58,13 +58,7 @@ func (p LineProcessor) ProcessLine(s string) string {
 			for i, e := range vt {
 				column := insert.Columns[i].String()
 				if column == "attribute_id" {
-					switch v := e.(type) {
-					case *sqlparser.SQLVal:
-						switch v.Type {
-						default:
-							attributeId = string(v.Val)
-						}
-					}
+					attributeId = string(e.(*sqlparser.SQLVal).Val)
 				}
 			}
 		}
