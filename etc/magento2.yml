@@ -108,6 +108,14 @@ tables:
       middlename: firstname
       suffix: customer_suffix
       company: company
+  - name: sales_order_grid
+    columns:
+      shipping_name: fullname
+      billing_name: fullname
+      billing_address: street
+      shipping_address: street
+      customer_email: email
+      cutomer_name: fullname
   - name: sendfriend_log
     columns:
       ip: ipv4
