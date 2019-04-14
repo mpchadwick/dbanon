@@ -61,6 +61,32 @@ func TestProcessColumn(t *testing.T) {
 		t.Error("Got true want false")
 	}
 	if format2 != "" {
-		t.Errorf("Got %s want empty string", format)
+		t.Errorf("Got %s want empty string", format2)
+	}
+}
+
+func TestProcessEav(t *testing.T) {
+	c, _ := NewConfig("magento2")
+
+	for _, e := range c.Eav {
+		if e.Name == "customer" {
+			e.Attributes["1"] = "firstname"
+		}
+	}
+
+	process, format := c.ProcessEav("customer_entity_varchar", "1")
+	if !process {
+		t.Error("Got false want true")
+	}
+	if format != "firstname" {
+		t.Errorf("Got %s want firstname", format)
+	}
+
+	process2, format2 := c.ProcessEav("customer_entity_varchar", "2")
+	if process2 {
+		t.Error("Got true want false")
+	}
+	if format2 != "" {
+		t.Errorf("Got %s want empty string", format2)
 	}
 }
