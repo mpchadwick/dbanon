@@ -22,6 +22,8 @@ func (p Provider) Get(s string) string {
 		return faker.Name().FirstName()
 	case "lastname":
 		return faker.Name().LastName()
+	case "fullname":
+		return faker.Name().FirstName() + " " + faker.Name().LastName()
 	case "email":
 		return faker.Internet().Email()
 	case "username":

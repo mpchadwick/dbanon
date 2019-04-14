@@ -14,6 +14,26 @@ tables:
       firstname: firstname
       lastname: lastname
       vat_id: vat_number
+  - name: customer_grid_flat
+    columns:
+      name: fullname
+      email: email
+      dob: date
+      gender: gender
+      taxvat: vat_number
+      shipping_full: street
+      billing_full: street
+      billing_firstname: firstname
+      billing_lastname: lastname
+      billing_telephone: telephone
+      billing_postcode: postcode
+      billing_country_id: country_code
+      billing_region: state
+      billing_street: street
+      billing_city: city
+      billing_fax: telephone
+      billing_vat_id: vat_number
+      billing_company: company
   - name: customer_address_entity
     columns:
       city: city
