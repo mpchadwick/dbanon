@@ -36,4 +36,15 @@ func TestProcessLine(t *testing.T) {
 	if !strings.Contains(r3, "1337") {
 		t.Error("Got no 1337 wanted 1337")
 	}
+
+	for _, e := range processor.Config.Eav {
+		if e.Name == "customer" {
+			e.Attributes["1"] = "firstname"
+		}
+	}
+
+	r4 := processor.ProcessLine("INSERT INTO `customer_entity_varchar` (`attribute_id`, `value`) VALUES (1, 'bob');")
+	if strings.Contains(r4, "bob") {
+		t.Error("Got bob wanted no bob")
+	}
 }
