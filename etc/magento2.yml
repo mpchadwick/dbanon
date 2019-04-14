@@ -51,7 +51,7 @@ tables:
       street: street
       city: city
       region: state
-      region_id: region_od
+      region_id: region_id
       postcode: postcode
       country_id: country_code
       telephone: telephone
@@ -94,6 +94,30 @@ tables:
 eav:
   - name: customer
     attributes:
+      email: email
+      prefix: title
+      firstname: firstname
+      middlename: firstname
+      lastname: lastname
+      suffix: customer_suffix
+      dob: datetime
+      password_hash: password
+      taxvat: vat_number
+      gender: gender
+  - name: customer_address
+    attributes:
+      city: city
+      company: company
+      country_id: country_code
+      fax: telephone
       firstname: firstname
       lastname: lastname
-      taxvat: vat_number
+      middlename: firstname
+      postcode: postcode
+      prefix: title
+      region: state
+      region_id: region_id
+      street: street
+      suffix: customer_suffix
+      telephone: telephone
+      vat_id: vat_number

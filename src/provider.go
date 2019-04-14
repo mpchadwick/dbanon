@@ -55,6 +55,9 @@ func (p Provider) Get(s string) string {
 	case "region_id":
 		// https://github.com/meanbee/magedbm2/blob/fc8bbf9a97db2c27d0cd8a1153dda8c95b6f5996/src/Anonymizer/Formatter/Address/RegionId.php#L24
 		return faker.Number().Between(1, 550)
+	case "gender":
+		// https://github.com/meanbee/magedbm2/blob/fc8bbf9a97db2c27d0cd8a1153dda8c95b6f5996/src/Anonymizer/Formatter/Person/Gender.php#L20
+		return faker.Number().Between(1, 3)
 	case "country_code":
 		return faker.Address().CountryCode()
 	case "vat_number":
