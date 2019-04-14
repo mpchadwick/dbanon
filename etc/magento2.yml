@@ -83,6 +83,13 @@ tables:
   - name: review_detail
     columns:
       nickname: username
+  - name: sales_creditmemo_grid
+    columns:
+      billing_name: fullname
+      billing_address: street
+      shipping_address: street
+      customer_name: fullname
+      customer_email: email
   - name: sales_order
     columns:
       customer_dob: datetime
