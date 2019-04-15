@@ -90,6 +90,13 @@ tables:
       shipping_address: street
       customer_name: fullname
       customer_email: email
+  - name: sales_invoice_grid
+    columns:
+      customer_name: fullname
+      customer_email: email
+      billing_name: fullname
+      billing_address: street
+      shipping_address: street
   - name: sales_order
     columns:
       customer_dob: datetime
