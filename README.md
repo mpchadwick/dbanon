@@ -4,6 +4,10 @@
 
 A run-anywhere, dependency-less database anonymizer.
 
+## Installation
+
+Download [the latest release from GitHub](https://github.com/mpchadwick/dbanon/releases).
+
 ## Usage
 
 `dbanon` reads from `stdin` and writes to `stdout`.
