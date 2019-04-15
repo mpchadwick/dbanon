@@ -130,6 +130,14 @@ tables:
       shipping_address: street
       customer_email: email
       cutomer_name: fullname
+  - name: sales_shipment_grid
+    columns:
+      customer_name: fullname
+      billing_address: street
+      shipping_address: street
+      billing_name: fullname
+      shipping_name: fullname
+      customer_email: email
   - name: sendfriend_log
     columns:
       ip: ipv4
