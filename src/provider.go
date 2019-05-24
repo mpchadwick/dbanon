@@ -1,13 +1,19 @@
 package dbanon
 
 import (
+	"strconv"
+	"strings"
 	"syreclabs.com/go/faker"
 )
 
-type Provider struct{}
+type Provider struct{
+	providedUniqueEmails map[string]int
+}
 
 func NewProvider() *Provider {
-	p := &Provider{}
+	made := make(map[string]int)
+
+	p := &Provider{providedUniqueEmails: made}
 
 	return p
 }
@@ -26,6 +32,19 @@ func (p Provider) Get(s string) string {
 		return faker.Name().FirstName() + " " + faker.Name().LastName()
 	case "email":
 		return faker.Internet().Email()
+	case "unique_email":
+		new := faker.Internet().Email()
+
+		_, exists := p.providedUniqueEmails[new]
+		if !exists {
+			p.providedUniqueEmails[new] = 0
+			return new
+		}
+
+		p.providedUniqueEmails[new]++
+		ret := strings.Join([]string{strconv.Itoa(p.providedUniqueEmails[new]), new}, "")
+
+		return ret
 	case "username":
 		return faker.Internet().UserName()
 	case "password":

@@ -5,19 +5,19 @@ tables:
     columns:
       firstname: firstname
       lastname: lastname
-      email: email
+      email: unique_email
       username: username
       password: password
   - name: customer_entity
     columns:
-      email: email
+      email: unique_email
       firstname: firstname
       lastname: lastname
       vat_id: vat_number
   - name: customer_grid_flat
     columns:
       name: fullname
-      email: email
+      email: unique_email
       dob: date
       gender: gender
       taxvat: vat_number
@@ -47,11 +47,11 @@ tables:
       vat_id: vat_number
   - name: newsletter_subscriber
     columns:
-      subscriber_email: email
+      subscriber_email: unique_email
       subscriber_confirm_code: md5
   - name: quote
     columns:
-      customer_email: email
+      customer_email: unique_email
       customer_prefix: title
       customer_firstname: firstname
       customer_middlename: firstname
@@ -62,7 +62,7 @@ tables:
       remote_ip: ipv4
   - name: quote_address
     columns:
-      email: email
+      email: unique_email
       prefix: title
       firstname: firstname
       lastname: lastname
@@ -89,18 +89,18 @@ tables:
       billing_address: street
       shipping_address: street
       customer_name: fullname
-      customer_email: email
+      customer_email: unique_email
   - name: sales_invoice_grid
     columns:
       customer_name: fullname
-      customer_email: email
+      customer_email: unique_email
       billing_name: fullname
       billing_address: street
       shipping_address: street
   - name: sales_order
     columns:
       customer_dob: datetime
-      customer_email: email
+      customer_email: unique_email
       customer_prefix: title
       customer_firstname: firstname
       customer_middlename: firstname
@@ -115,7 +115,7 @@ tables:
       lastname: lastname
       street: street
       city: city
-      email: email
+      email: unique_email
       telephone: telephone
       firstname: firstname
       prefix: title
@@ -128,7 +128,7 @@ tables:
       billing_name: fullname
       billing_address: street
       shipping_address: street
-      customer_email: email
+      customer_email: unique_email
       cutomer_name: fullname
   - name: sales_shipment_grid
     columns:
@@ -137,14 +137,14 @@ tables:
       shipping_address: street
       billing_name: fullname
       shipping_name: fullname
-      customer_email: email
+      customer_email: unique_email
   - name: sendfriend_log
     columns:
       ip: ipv4
 eav:
   - name: customer
     attributes:
-      email: email
+      email: unique_email
       prefix: title
       firstname: firstname
       middlename: firstname
