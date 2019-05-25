@@ -6,6 +6,8 @@ import (
 	"syreclabs.com/go/faker"
 )
 
+var fakeEmail = faker.Internet().Email
+
 type Provider struct{
 	providedUniqueEmails map[string]int
 }
@@ -33,7 +35,7 @@ func (p Provider) Get(s string) string {
 	case "email":
 		return faker.Internet().Email()
 	case "unique_email":
-		new := faker.Internet().Email()
+		new := fakeEmail()
 
 		_, exists := p.providedUniqueEmails[new]
 		if !exists {
