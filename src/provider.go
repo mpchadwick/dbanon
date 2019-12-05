@@ -6,6 +6,8 @@ import (
 	"syreclabs.com/go/faker"
 )
 
+var fakeEmail = faker.Internet().Email
+
 type Provider struct{
 	providedUniqueEmails map[string]int
 }
