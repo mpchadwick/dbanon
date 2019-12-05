@@ -87,21 +87,21 @@ func (p Provider) Get(s string) string {
 		// https://github.com/meanbee/magedbm2/blob/fc8bbf9a97db2c27d0cd8a1153dda8c95b6f5996/src/Anonymizer/Formatter/Company/VatNumber.php#L21
 		return "GB" + faker.Number().Between(100000000, 999999999)
 	case "blog_post_title":
-	    return faker.Lorem().Sentence(6)
+		return faker.Lorem().Sentence(6)
 	case "blog_post_slug":
-	    return faker.Internet().Slug()
+		return faker.Internet().Slug()
 	case "blog_post_content":
-    	return faker.Lorem().Paragraph(3)
-    case "productcategoryname":
-        return faker.Commerce().Department()
-    case "productdescription":
-        return faker.Lorem().Paragraph(1)
-    case "productname":
-        return faker.Commerce().ProductName()
-    case "productsku":
-        return faker.Code().Abn()
-    case "shipment_tracking_number":
-        return faker.RandomString(18)
+		return faker.Lorem().Paragraph(3)
+	case "productcategoryname":
+		return faker.Commerce().Department()
+	case "productdescription":
+		return faker.Lorem().Paragraph(1)
+	case "productname":
+		return faker.Commerce().ProductName()
+	case "productsku":
+		return faker.Code().Abn()
+	case "shipment_tracking_number":
+		return faker.RandomString(18)
 	}
 
 	return ""
