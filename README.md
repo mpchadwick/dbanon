@@ -63,3 +63,11 @@ Columns are specified as key / value pairs. The value string winds up getting pa
 
 - Currently only supports MySQL
 - Currently requires `mysqldump` be run with `--complete-insert` flag.
+
+## Updating
+
+`dbanon` will self-update when passed the `-update` flag
+
+```
+dbanon -update
+```
