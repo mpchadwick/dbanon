@@ -2,5 +2,5 @@ build:
 	go get -u github.com/shuLhan/go-bindata/...
 	$$GOPATH/bin/go-bindata -pkg dbanon -o src/bindata.go etc/*
 	GO111MODULE=on go get ./...
-	go test $$GOPATH/src/github.com/mpchadwick/dbanon/src
+	GO111MODULE=on go test $$GOPATH/src/github.com/mpchadwick/dbanon/src
 	GO111MODULE=on go build -o dbanon main.go

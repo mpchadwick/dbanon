@@ -1,7 +1,7 @@
 package dbanon
 
 import (
-	"github.com/xwb1989/sqlparser"
+	"github.com/blastrain/vitess-sqlparser/sqlparser"
 	"strings"
 )
 
