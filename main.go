@@ -4,15 +4,47 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"github.com/blang/semver"
 	"github.com/mpchadwick/dbanon/src"
+	"github.com/rhysd/go-github-selfupdate/selfupdate"
 	"io/ioutil"
 	"log"
 	"os"
 )
 
+const version = "0.2.0"
+
+const slug = "mpchadwick/dbanon"
+
+func selfUpdate() error {
+	previous := semver.MustParse(version)
+	latest, err := selfupdate.UpdateSelf(previous, slug)
+	if err != nil {
+		return err
+	}
+
+	if previous.Equals(latest.Version) {
+		fmt.Println("Current binary is the latest version", version)
+	} else {
+		fmt.Println("Update successfully done to version", latest.Version)
+		fmt.Println("Release note:\n", latest.ReleaseNotes)
+	}
+	return nil
+}
+
 func main() {
 	requested := flag.String("config", "", "Configuration to use. magento2 is included out-of-box. Alternately, supply path to file")
+	update := flag.Bool("update", false, "Auto update dbanon to the newest version")
+
 	flag.Parse()
+
+	if *update {
+		if err := selfUpdate(); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		os.Exit(0)
+	}
 
 	config, err := dbanon.NewConfig(*requested)
 	if err != nil {
