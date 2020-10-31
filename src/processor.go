@@ -16,11 +16,14 @@ func NewLineProcessor(c *Config, p ProviderInterface) *LineProcessor {
 
 func (p LineProcessor) ProcessLine(s string) string {
 	i := strings.Index(s, "INSERT")
-	if i != 0 {
-		// We are only processing lines that begin with INSERT
-		return s
+	if i == 0 {
+		return p.processInsert(s)
 	}
 
+	return s
+}
+
+func (p LineProcessor) processInsert(s string) string {
 	stmt, _ := sqlparser.Parse(s)
 	insert := stmt.(*sqlparser.Insert)
 
