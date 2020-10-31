@@ -8,10 +8,12 @@ import (
 type LineProcessor struct {
 	Config *Config
 	Provider ProviderInterface
+	nextTable string
+	currentTable sqlparser.Statement
 }
 
 func NewLineProcessor(c *Config, p ProviderInterface) *LineProcessor {
-	return &LineProcessor{Config: c, Provider: p}
+	return &LineProcessor{Config: c, Provider: p, nextTable: ""}
 }
 
 func (p LineProcessor) ProcessLine(s string) string {
@@ -20,7 +22,28 @@ func (p LineProcessor) ProcessLine(s string) string {
 		return p.processInsert(s)
 	}
 
+	p.findNextTable(s)
+
 	return s
+}
+
+func (p LineProcessor) findNextTable(s string) {
+	if len(p.nextTable) > 0 {
+		// TODO: Are we guaranteed this will delimit the end of the CREATE TABLE?
+		j := strings.Index(s, "/*!40101")
+		if j == 0 {
+			stmt, _ := sqlparser.Parse(p.nextTable)
+			p.currentTable = stmt
+			p.nextTable = ""
+		} else {
+			p.nextTable += s
+		}
+	}
+
+	k := strings.Index(s, "CREATE TABLE")
+	if k == 0 {
+		p.nextTable += s
+	}
 }
 
 func (p LineProcessor) processInsert(s string) string {
