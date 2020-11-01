@@ -37,6 +37,11 @@ func TestProcessLine(t *testing.T) {
 		t.Error("Got bob wanted no bob")
 	}
 
+	processor.ProcessLine("CREATE TABLE `admin_user` (")
+	processor.ProcessLine("  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'User ID'")
+	processor.ProcessLine(") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin User Table'")
+	processor.ProcessLine("/*!40101 SET character_set_client = @saved_cs_client */;")
+
 	r3 := processor.ProcessLine("INSERT INTO `admin_user` (`user_id`) VALUES (1337);")
 	if !strings.Contains(r3, "1337") {
 		t.Error("Got no 1337 wanted 1337")

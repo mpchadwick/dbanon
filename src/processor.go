@@ -8,12 +8,13 @@ import (
 type LineProcessor struct {
 	Config *Config
 	Provider ProviderInterface
-	nextTable string
-	currentTable sqlparser.Statement
 }
 
+var nextTable = ""
+var currentTable []string
+
 func NewLineProcessor(c *Config, p ProviderInterface) *LineProcessor {
-	return &LineProcessor{Config: c, Provider: p, nextTable: ""}
+	return &LineProcessor{Config: c, Provider: p}
 }
 
 func (p LineProcessor) ProcessLine(s string) string {
@@ -28,21 +29,25 @@ func (p LineProcessor) ProcessLine(s string) string {
 }
 
 func (p LineProcessor) findNextTable(s string) {
-	if len(p.nextTable) > 0 {
+	if len(nextTable) > 0 {
 		// TODO: Are we guaranteed this will delimit the end of the CREATE TABLE?
 		j := strings.Index(s, "/*!40101")
 		if j == 0 {
-			stmt, _ := sqlparser.Parse(p.nextTable)
-			p.currentTable = stmt
-			p.nextTable = ""
+			stmt, _ := sqlparser.Parse(nextTable)
+			currentTable = nil
+			createTable := stmt.(*sqlparser.CreateTable)
+			for _, col := range createTable.Columns {
+				currentTable = append(currentTable, col.Name)
+			}
+			nextTable = ""
 		} else {
-			p.nextTable += s
+			nextTable += s
 		}
 	}
 
 	k := strings.Index(s, "CREATE TABLE")
 	if k == 0 {
-		p.nextTable += s
+		nextTable += s
 	}
 }
 
@@ -63,7 +68,7 @@ func (p LineProcessor) processInsert(s string) string {
 		rows := insert.Rows.(sqlparser.Values)
 		for _, vt := range rows {
 			for i, e := range vt {
-				column := insert.Columns[i].String()
+				column := currentTable[i]
 
 				result, dataType := p.Config.ProcessColumn(table, column)
 
