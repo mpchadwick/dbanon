@@ -73,4 +73,9 @@ func TestProcessLine(t *testing.T) {
 	if strings.Contains(r4b, "joe") {
 		t.Error("Got joe wanted no joe")
 	}
+
+	r4c := processor.ProcessLine("INSERT INTO `customer_entity_varchar` VALUES (2, 'jane');")
+	if !strings.Contains(r4c, "jane") {
+		t.Error("Got no jane wanted jane")
+	}
 }
