@@ -24,6 +24,8 @@ func (eav Eav) ProcessLine(s string) {
 		eav.processInsert(s)
 		return
 	}
+
+	findNextTable(s)
 }
 
 func (eav Eav) processInsert (s string) {
@@ -36,7 +38,7 @@ func (eav Eav) processInsert (s string) {
 			rows := stmt.Rows.(sqlparser.Values)
 			for _, vt := range rows {
 				for i, e := range vt {
-					column := stmt.Columns[i].String()
+					column := currentTable[i]
 					switch v := e.(type) {
 					case *sqlparser.SQLVal:
 						if column == "entity_type_id" {
@@ -55,7 +57,7 @@ func (eav Eav) processInsert (s string) {
 			rows := stmt.Rows.(sqlparser.Values)
 			for _, vt := range rows {
 				for i, e := range vt {
-					column := stmt.Columns[i].String()
+					column := currentTable[i]
 					switch v := e.(type) {
 					case *sqlparser.SQLVal:
 						if column == "attribute_id" {

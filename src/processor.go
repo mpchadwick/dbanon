@@ -10,9 +10,6 @@ type LineProcessor struct {
 	Provider ProviderInterface
 }
 
-var nextTable = ""
-var currentTable []string
-
 func NewLineProcessor(c *Config, p ProviderInterface) *LineProcessor {
 	return &LineProcessor{Config: c, Provider: p}
 }
@@ -23,32 +20,9 @@ func (p LineProcessor) ProcessLine(s string) string {
 		return p.processInsert(s)
 	}
 
-	p.findNextTable(s)
+	findNextTable(s)
 
 	return s
-}
-
-func (p LineProcessor) findNextTable(s string) {
-	if len(nextTable) > 0 {
-		// TODO: Are we guaranteed this will delimit the end of the CREATE TABLE?
-		j := strings.Index(s, "/*!40101")
-		if j == 0 {
-			stmt, _ := sqlparser.Parse(nextTable)
-			currentTable = nil
-			createTable := stmt.(*sqlparser.CreateTable)
-			for _, col := range createTable.Columns {
-				currentTable = append(currentTable, col.Name)
-			}
-			nextTable = ""
-		} else {
-			nextTable += s
-		}
-	}
-
-	k := strings.Index(s, "CREATE TABLE")
-	if k == 0 {
-		nextTable += s
-	}
 }
 
 func (p LineProcessor) processInsert(s string) string {
