@@ -20,10 +20,13 @@ func NewEav(c *Config) *Eav {
 func (eav Eav) ProcessLine(s string) {
 	// TODO: DRY up duplicated code from LineProcessor.ProcessLine
 	i := strings.Index(s, "INSERT")
-	if i != 0 {
+	if i == 0 {
+		eav.processInsert(s)
 		return
 	}
+}
 
+func (eav Eav) processInsert (s string) {
 	stmt, _ := sqlparser.Parse(s)
 	switch stmt := stmt.(type) {
 	case *sqlparser.Insert:
