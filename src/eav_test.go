@@ -21,16 +21,25 @@ func TestEavProcessLine(t *testing.T) {
 	eav.ProcessLine(") ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute';")
 	eav.ProcessLine("/*!40101 SET character_set_client = @saved_cs_client */;")
 	eav.ProcessLine("INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`) VALUES (1, 1, 'firstname');")
+	eav.ProcessLine("INSERT INTO `eav_attribute` VALUES (2, 1, 'lastname');")
 	r1 := false
+	r2 := false
 	for _, eavConfig := range eav.Config.Eav {
 		for k, v := range eavConfig.Attributes {
 			if k == "1" && v == "firstname" {
 				r1 = true
 			}
+			if k == "2" && v == "lastname" {
+				r2 = true
+			}
 		}
 	}
 
 	if !r1 {
+		t.Errorf("Got false wanted true")
+	}
+
+	if !r2 {
 		t.Errorf("Got false wanted true")
 	}			
 
