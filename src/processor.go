@@ -91,7 +91,7 @@ func (p LineProcessor) processInsert(s string) string {
 		rows := insert.Rows.(sqlparser.Values)
 		for _, vt := range rows {
 			for i, e := range vt {
-				column := insert.Columns[i].String()
+				column := currentTable[i]
 				switch v := e.(type) {
 				case *sqlparser.SQLVal:
 					if column == "attribute_id" {
