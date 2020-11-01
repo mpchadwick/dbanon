@@ -37,6 +37,11 @@ func TestProcessLine(t *testing.T) {
 		t.Error("Got bob wanted no bob")
 	}
 
+	r2b := processor.ProcessLine("INSERT INTO `admin_user` VALUES ('joe');")
+	if strings.Contains(r2b, "joe") {
+		t.Error("Got joe wanted no joe")
+	}
+
 	processor.ProcessLine("CREATE TABLE `admin_user` (")
 	processor.ProcessLine("  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'User ID'")
 	processor.ProcessLine(") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin User Table'")
@@ -62,5 +67,10 @@ func TestProcessLine(t *testing.T) {
 	r4 := processor.ProcessLine("INSERT INTO `customer_entity_varchar` (`attribute_id`, `value`) VALUES (1, 'bob');")
 	if strings.Contains(r4, "bob") {
 		t.Error("Got bob wanted no bob")
+	}
+
+	r4b := processor.ProcessLine("INSERT INTO `customer_entity_varchar` VALUES (1, 'joe');")
+	if strings.Contains(r4b, "joe") {
+		t.Error("Got joe wanted no joe")
 	}
 }
