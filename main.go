@@ -12,7 +12,7 @@ import (
 	"os"
 )
 
-const version = "0.2.2"
+var version string
 
 const slug = "mpchadwick/dbanon"
 
@@ -35,8 +35,14 @@ func selfUpdate() error {
 func main() {
 	requested := flag.String("config", "", "Configuration to use. magento2 is included out-of-box. Alternately, supply path to file")
 	update := flag.Bool("update", false, "Auto update dbanon to the newest version")
+	ver := flag.Bool("version", false, "Get current version")
 
 	flag.Parse()
+
+	if *ver {
+		fmt.Println(version)
+		os.Exit(0)
+	}
 
 	if *update {
 		if err := selfUpdate(); err != nil {
