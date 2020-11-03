@@ -38,6 +38,7 @@ func (p Provider) Get(s string) string {
 	if i == 0 {
 		return p.raw(s)
 	}
+
 	switch s {
 	case "firstname":
 		return faker.Name().FirstName()
