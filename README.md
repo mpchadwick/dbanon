@@ -56,7 +56,9 @@ mysqldump mydb | dbanon -config=myconfig.yml | gzip > mydb.sql.gz
 
 See [the `etc` directory](etc/) for examples.
 
-Columns are specified as key / value pairs. The value string winds up getting passed to [this function](https://github.com/mpchadwick/dbanon/blob/e800bae7b8ef2b37bcaf3440273a919ed33ab283/src/provider.go#L19), which gets random values from [`dmgk/faker`](https://github.com/dmgk/faker)
+Columns are specified as key / value pairs. The value string winds up getting passed to [this function](https://github.com/mpchadwick/dbanon/blob/ade634a10bc282c06fecef115afbdd6661a94277/src/provider.go#L36), which gets random values from [`dmgk/faker`](https://github.com/dmgk/faker).
+
+It is also possible to pass direct Faker function calls for [supported "raw providers"](https://github.com/mpchadwick/dbanon/blob/ade634a10bc282c06fecef115afbdd6661a94277/src/provider.go#L13-L17)
 
 
 ## Limitations
