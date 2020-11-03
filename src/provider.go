@@ -1,12 +1,21 @@
 package dbanon
 
 import (
+	"reflect"
 	"strconv"
 	"strings"
 	"syreclabs.com/go/faker"
 )
 
 var fakeEmail = faker.Internet().Email
+
+var rawProviders = map[string]interface{} {
+	"Lorem()": faker.Lorem(),
+	"Internet()": faker.Internet(),
+	"Commerce()": faker.Commerce(),
+	"Code()": faker.Code(),
+	"Number()": faker.Number(),
+}
 
 type Provider struct{
 	providedUniqueEmails map[string]int
@@ -25,6 +34,10 @@ type ProviderInterface interface {
 }
 
 func (p Provider) Get(s string) string {
+	i := strings.Index(s, "faker.")
+	if i == 0 {
+		return p.raw(s)
+	}
 	switch s {
 	case "firstname":
 		return faker.Name().FirstName()
@@ -89,4 +102,45 @@ func (p Provider) Get(s string) string {
 	}
 
 	return ""
+}
+
+func (p Provider) raw (s string) string {
+	parts := strings.Split(s, ".")
+
+	className, ok := rawProviders[parts[1]]
+	if !ok {
+		// TODO: Cover this with logging
+		return ""
+	}
+
+	class := reflect.ValueOf(className)
+	methodName := strings.Split(parts[2], "(")[0]
+	method := class.MethodByName(methodName)
+	if !method.IsValid() {
+		// TODO: Cover this with logging
+		return ""
+	}
+
+	argsStart := strings.Index(parts[2], "(")
+	argsEnd := strings.Index(parts[2], ")")
+	if argsStart == -1 || argsEnd == -1 || argsEnd < argsStart {
+		// TODO: Cover this with logging
+		return ""
+	}
+
+	args := parts[2][argsStart + 1 : argsEnd]
+	if args == "" {
+		out := method.Call(nil)
+		return out[0].String()
+	} else {
+		argsArray := strings.Split(args, ",")
+		in := make([]reflect.Value, len(argsArray))
+		for i, param := range argsArray {
+			intVal, _ := strconv.Atoi(strings.Replace(param, " ", "", -1))
+			in[i] = reflect.ValueOf(intVal)
+		}
+
+		out := method.Call(in)
+		return out[0].String()
+	}
 }
