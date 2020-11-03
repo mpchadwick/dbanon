@@ -13,7 +13,7 @@ Download [the latest release from GitHub](https://github.com/mpchadwick/dbanon/r
 `dbanon` reads from `stdin` and writes to `stdout`.
 
 ```
-mysqldump  mydb | dbanon -config=myconfig.yml | gzip > mydb.sql.gz
+mysqldump mydb | dbanon -config=myconfig.yml | gzip > mydb.sql.gz
 ```
 
 The `-config` flag can use bundled configurations or point to the path of a custom configuration file. 
