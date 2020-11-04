@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/blang/semver"
+	"github.com/sirupsen/logrus"
 	"github.com/mpchadwick/dbanon/src"
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
 	"io/ioutil"
@@ -37,6 +38,8 @@ func main() {
 	update := flag.Bool("update", false, "Auto update dbanon to the newest version")
 	ver := flag.Bool("version", false, "Get current version")
 	silent := flag.Bool("silent", false, "Disable all logging")
+	logFile := flag.String("log-file", "", "File to write logs to")
+	logLevel := flag.String("log-level", "", "Specify desired log level")
 
 	flag.Parse()
 
@@ -55,10 +58,23 @@ func main() {
 
 	dbanonLogger := dbanon.GetLogger()
 	if !*silent {
-		file, _ := os.OpenFile("dbanon.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		f := "dbanon.log"
+		if *logFile != "" {
+			f = *logFile
+		}
+		file, _ := os.OpenFile(f, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 		dbanonLogger.SetOutput(file)
 	} else {
 		dbanonLogger.SetOutput(ioutil.Discard)
+	}
+
+	if *logLevel != "" {
+		level, err := logrus.ParseLevel(*logLevel)
+		if err != nil {
+			dbanonLogger.Error(err)
+		} else {
+			dbanonLogger.SetLevel(level)
+		}
 	}
 
 

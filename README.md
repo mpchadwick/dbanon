@@ -64,6 +64,26 @@ It is also possible to pass direct Faker function calls for [supported "raw prov
 
 `dbanon` records messages about anything notable (e.g. invalid configuration) to the file `dbanon.log` in the directory from which you run it.
 
+### `-log-file`
+
+The `-log-file` flag can be used to have `dbanon` log to a different location.
+
+```
+mysqldump mydb | dbanon -config=myconfig.yml -log-file=var/dbanon.log
+```
+
+### `-log-level`
+
+The `-log-level` flag can be used to control the verbosity of logs. Supported values can be found [here](https://github.com/sirupsen/logrus/blob/d131c24e23baaa812461202af6d7cfa388e2d292/logrus.go#L25-L45).
+
+```
+mysqldump mydb | dbanon -config=myconfig.yml -log-level=debug | gzip > mydb.sql.gz
+```
+
+The default log level is `info`.
+
+### `-silent`
+
 Logging can be disabled entirely by passing the `-silent` flag to `dbanon`
 
 ```
