@@ -33,41 +33,31 @@ func (p LineProcessor) processInsert(s string) string {
 
 	processor := p.Config.ProcessTable(table)
 
-	switch processor {
-	case "":
-		// This table doesn't need to be processed
+	if processor == "" {
 		return s
-	case "table":
-		// "Classic" processing
-		rows := insert.Rows.(sqlparser.Values)
-		for _, vt := range rows {
-			for i, e := range vt {
-				column := currentTable[i]
+	}
 
-				result, dataType := p.Config.ProcessColumn(table, column)
+	var attributeId string
+	var result bool
+	var dataType string
+	rows := insert.Rows.(sqlparser.Values)
+	for _, vt := range rows {
+		for i, e := range vt {
+			column := currentTable[i]
+
+			if processor == "table" {
+				result, dataType = p.Config.ProcessColumn(table, column)
 
 				if !result {
 					continue
 				}
-
-				switch v := e.(type) {
-				case *sqlparser.SQLVal:
-					v.Val = []byte(p.Provider.Get(dataType))
-				}
 			}
-		}
-		return sqlparser.String(insert) + ";\n"
-	case "eav":
-		// EAV processing
-		var attributeId string
-		var result bool
-		var dataType string
-		rows := insert.Rows.(sqlparser.Values)
-		for _, vt := range rows {
-			for i, e := range vt {
-				column := currentTable[i]
-				switch v := e.(type) {
-				case *sqlparser.SQLVal:
+
+			switch v := e.(type) {
+			case *sqlparser.SQLVal:
+				if processor == "table" {
+					v.Val = []byte(p.Provider.Get(dataType))
+				} else {
 					if column == "attribute_id" {
 						attributeId = string(v.Val)
 						result, dataType = p.Config.ProcessEav(table, attributeId)
@@ -78,8 +68,7 @@ func (p LineProcessor) processInsert(s string) string {
 				}
 			}
 		}
-		return sqlparser.String(insert) + ";\n"
-	default:
-		return s
 	}
+
+	return sqlparser.String(insert) + ";\n"
 }
