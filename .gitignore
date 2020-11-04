@@ -1,4 +1,5 @@
 dbanon
+dbanon.log
 tmp/*
 src/bindata.go
 .DS_Store
