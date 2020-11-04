@@ -52,6 +52,10 @@ func main() {
 		os.Exit(0)
 	}
 
+	dbanonLogger := dbanon.GetLogger()
+	file, _ := os.OpenFile("dbanon.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	dbanonLogger.Out = file
+
 	config, err := dbanon.NewConfig(*requested)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)

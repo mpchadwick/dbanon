@@ -108,11 +108,12 @@ func (p Provider) Get(s string) string {
 }
 
 func (p Provider) raw (s string) string {
+	logger := GetLogger()
 	parts := strings.Split(s, ".")
 
 	className, ok := rawProviders[parts[1]]
 	if !ok {
-		// TODO: Cover this with logging
+		logger.Error(parts[1] + " is not a supported")
 		return ""
 	}
 

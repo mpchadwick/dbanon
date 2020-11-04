@@ -1,10 +1,14 @@
 package dbanon
 
 import (
+	"github.com/sirupsen/logrus/hooks/test"
 	"testing"
 )
 
 func TestGet(t *testing.T) {
+	testLogger, hook := test.NewNullLogger()
+	SetLogger(testLogger)
+
 	fakeEmail = func() string {
 		return "bob@example.com"
 	}
@@ -32,9 +36,9 @@ func TestGet(t *testing.T) {
 		t.Errorf("Got empty string, expecting number between 1 and 550")
 	}
 
-	r5 := provider.Get("faker.Whoops1")
-	if r5 != "" {
-		t.Errorf("Got a value and was expecting empty string")
+	_ = provider.Get("faker.Whoops1")
+	if hook.LastEntry().Message != "Whoops1 is not a supported" {
+		t.Errorf("Unsupported provider not handled correctly")
 	}
 
 	r6 := provider.Get("faker.Number().Whoops2()")
