@@ -128,7 +128,7 @@ func (p Provider) raw (s string) string {
 	argsStart := strings.Index(parts[2], "(")
 	argsEnd := strings.Index(parts[2], ")")
 	if argsStart == -1 || argsEnd == -1 || argsEnd < argsStart {
-		// TODO: Cover this with logging
+		logger.Error("Could not identify arguments for " + parts[2])
 		return ""
 	}
 
