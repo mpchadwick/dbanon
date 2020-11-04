@@ -60,6 +60,15 @@ Columns are specified as key / value pairs. The value string winds up getting pa
 
 It is also possible to pass direct Faker function calls for [supported "raw providers"](https://github.com/mpchadwick/dbanon/blob/ade634a10bc282c06fecef115afbdd6661a94277/src/provider.go#L13-L17)
 
+## Logging
+
+`dbanon` records messages about anything notable (e.g. invalid configuration) to the file `dbanon.log` in the directory from which you run it.
+
+Logging can be disabled entirely by passing the `-silent` flag to `dbanon`
+
+```
+mysqldump mydb | dbanon -config=myconfig.yml -silent | gzip > mydb.sql.gz
+```
 
 ## Limitations
 
