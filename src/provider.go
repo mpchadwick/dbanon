@@ -113,7 +113,7 @@ func (p Provider) raw (s string) string {
 
 	className, ok := rawProviders[parts[1]]
 	if !ok {
-		logger.Error(parts[1] + " is not a supported")
+		logger.Error(parts[1] + " is not a supported provider")
 		return ""
 	}
 
@@ -121,7 +121,7 @@ func (p Provider) raw (s string) string {
 	methodName := strings.Split(parts[2], "(")[0]
 	method := class.MethodByName(methodName)
 	if !method.IsValid() {
-		// TODO: Cover this with logging
+		logger.Error(parts[2] + " is not a valid method")
 		return ""
 	}
 

@@ -37,13 +37,13 @@ func TestGet(t *testing.T) {
 	}
 
 	_ = provider.Get("faker.Whoops1")
-	if hook.LastEntry().Message != "Whoops1 is not a supported" {
+	if hook.LastEntry().Message != "Whoops1 is not a supported provider" {
 		t.Errorf("Unsupported provider not handled correctly")
 	}
 
-	r6 := provider.Get("faker.Number().Whoops2()")
-	if r6 != "" {
-		t.Errorf("Got a value and was expecting empty string")
+	_ = provider.Get("faker.Number().Whoops2()")
+	if hook.LastEntry().Message != "Whoops2() is not a valid method" {
+		t.Errorf("Unsupported method not handled correctly")
 	}
 
 	r7 := provider.Get("faker.Internet().Slug") 
