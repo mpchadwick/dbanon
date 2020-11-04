@@ -36,6 +36,7 @@ func main() {
 	requested := flag.String("config", "", "Configuration to use. magento2 is included out-of-box. Alternately, supply path to file")
 	update := flag.Bool("update", false, "Auto update dbanon to the newest version")
 	ver := flag.Bool("version", false, "Get current version")
+	silent := flag.Bool("silent", false, "Disable all logging")
 
 	flag.Parse()
 
@@ -53,8 +54,13 @@ func main() {
 	}
 
 	dbanonLogger := dbanon.GetLogger()
-	file, _ := os.OpenFile("dbanon.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	dbanonLogger.Out = file
+	if !*silent {
+		file, _ := os.OpenFile("dbanon.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		dbanonLogger.SetOutput(file)
+	} else {
+		dbanonLogger.SetOutput(ioutil.Discard)
+	}
+
 
 	config, err := dbanon.NewConfig(*requested)
 	if err != nil {
