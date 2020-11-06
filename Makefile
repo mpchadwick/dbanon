@@ -1,4 +1,4 @@
-VERSION := $(shell git describe --exact-match --tags 2>/dev/null)
+VERSION := $(shell git describe --tags 2>/dev/null)
 LDFLAGS = -X main.version=$(VERSION)
 
 build:
