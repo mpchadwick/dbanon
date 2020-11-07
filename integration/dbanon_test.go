@@ -34,4 +34,18 @@ func TestDbanon(t *testing.T) {
 		t.Errorf("Got %s expected %s", res2, versRes)
 	}
 
+
+	cmdStr3 := "cat integration/magento_raw.sql | ./dbanon -config=magento2"
+	cmd3 := exec.Command("bash", "-c", cmdStr3)
+	out3, _ := cmd3.CombinedOutput()
+	res3 := strings.TrimSpace(string(out3))
+	if strings.Contains(res3, "adminFirstName") {
+		t.Error("Expected no adminFirstName")
+	}
+	if strings.Contains(res3, "customer1FirstName") {
+		t.Error("Expected no customer1FirstName")
+	}
+	if strings.Contains(res3, "customer2LastName") {
+		t.Error("Expected no customer2LastName")
+	}
 }
