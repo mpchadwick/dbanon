@@ -48,4 +48,16 @@ func TestDbanon(t *testing.T) {
 	if strings.Contains(res3, "customer2LastName") {
 		t.Error("Expected no customer2LastName")
 	}
+
+	cmdStr4 := "cat integration/magento_eav_before.sql | ./dbanon -config=magento2 map-eav"
+	cmd4 := exec.Command("bash", "-c", cmdStr4)
+	out4, _ := cmd4.CombinedOutput()
+	res4 := strings.TrimSpace(string(out4))
+	if !strings.Contains(res4, "\"5\": firstname") {
+		t.Errorf("First name not processed correctly")
+	}
+
+	if !strings.Contains(res4, "\"28\": street") {
+		t.Errorf("Street not processed correctly")
+	}
 }
