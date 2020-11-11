@@ -20,7 +20,9 @@ func (p TestProvider) Get(s string) string {
 func TestProcessLine(t *testing.T) {
 	config, _ := NewConfig("magento2")
 	provider := NewTestProvider()
-	processor := NewLineProcessor(config, provider)
+	mode := "anonymize"
+	eav := NewEav(config)
+	processor := NewLineProcessor(mode, config, provider, eav)
 
 	r1 := processor.ProcessLine("foobar")
 	if r1 != "foobar" {
@@ -78,4 +80,50 @@ func TestProcessLine(t *testing.T) {
 	if !strings.Contains(r4c, "jane") {
 		t.Error("Got no jane wanted jane")
 	}
+}
+
+func TestEavProcessLine(t *testing.T) {
+	config, _ := NewConfig("magento2")
+	provider := NewTestProvider()
+	mode := "map-eav"
+	eav := NewEav(config)
+	processor := NewLineProcessor(mode, config, provider, eav)
+
+
+	processor.ProcessLine("CREATE TABLE `eav_entity_type` (")
+	processor.ProcessLine("  `entity_type_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Type ID',")
+	processor.ProcessLine("  `entity_type_code` varchar(50) NOT NULL COMMENT 'Entity Type Code'")
+	processor.ProcessLine(") ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Type';")
+	processor.ProcessLine("/*!40101 SET character_set_client = @saved_cs_client */;")
+	processor.ProcessLine("INSERT INTO `eav_entity_type` (`entity_type_id`, `entity_type_code`) VALUES (1, 'customer');")
+	
+	processor.ProcessLine("CREATE TABLE `eav_attribute` (")
+	processor.ProcessLine("  `attribute_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Attribute ID',")
+	processor.ProcessLine("  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',")
+	processor.ProcessLine("  `attribute_code` varchar(255) NOT NULL COMMENT 'Attribute Code'")
+	processor.ProcessLine(") ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute';")
+	processor.ProcessLine("/*!40101 SET character_set_client = @saved_cs_client */;")
+	processor.ProcessLine("INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`) VALUES (1, 1, 'firstname');")
+	processor.ProcessLine("INSERT INTO `eav_attribute` VALUES (2, 1, 'lastname');")
+	r1 := false
+	r2 := false
+	for _, eavConfig := range eav.Config.Eav {
+		for k, v := range eavConfig.Attributes {
+			if k == "1" && v == "firstname" {
+				r1 = true
+			}
+			if k == "2" && v == "lastname" {
+				r2 = true
+			}
+		}
+	}
+
+	if !r1 {
+		t.Errorf("Got false wanted true")
+	}
+
+	if !r2 {
+		t.Errorf("Got false wanted true")
+	}			
+
 }

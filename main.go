@@ -89,34 +89,33 @@ func main() {
 	// We don't want to hear about it
 	log.SetOutput(ioutil.Discard)
 	reader := bufio.NewReader(os.Stdin)
-
+	
 	args := flag.Args()
+	mode := "anonymize"
 	if len(args) > 0 && args[0] == "map-eav" {
-		eav := dbanon.NewEav(config)
-
-		for {
-			text, err := reader.ReadString('\n')
-			eav.ProcessLine(text)
-
-			if err != nil {
-				break
-			}
-		}
-
-		out, _ := eav.Config.String()
-		fmt.Print(string(out))
-		os.Exit(0)
+		mode = "map-eav"
 	}
 
 	provider := dbanon.NewProvider()
-	processor := dbanon.NewLineProcessor(config, provider)
+	eav := dbanon.NewEav(config)
+	processor := dbanon.NewLineProcessor(mode, config, provider, eav)
+
 
 	for {
 		text, err := reader.ReadString('\n')
-		fmt.Print(processor.ProcessLine(text))
+		result := processor.ProcessLine(text)
+		if mode == "anonymize" {
+			fmt.Print(result)
+		}
 
 		if err != nil {
 			break
 		}
+	}
+
+	if mode == "map-eav" {
+		out, _ := eav.Config.String()
+		fmt.Print(string(out))
+		os.Exit(0)
 	}
 }
