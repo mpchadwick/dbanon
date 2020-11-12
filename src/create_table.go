@@ -5,8 +5,17 @@ import (
 	"strings"
 )
 
+type Column struct {
+	Name string
+	Type string
+}
+
+func NewColumn(n string, t string) *Column {
+	return &Column{Name: n, Type: t}
+}
+
 var nextTable = ""
-var currentTable []string
+var currentTable = make([]*Column, 0)
 
 func findNextTable(s string) {
 	if len(nextTable) > 0 {
@@ -17,7 +26,8 @@ func findNextTable(s string) {
 			currentTable = nil
 			createTable := stmt.(*sqlparser.CreateTable)
 			for _, col := range createTable.Columns {
-				currentTable = append(currentTable, col.Name)
+				column := NewColumn(col.Name, col.Type)
+				currentTable = append(currentTable, column)
 			}
 			nextTable = ""
 		} else {

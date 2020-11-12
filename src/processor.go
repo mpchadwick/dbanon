@@ -48,7 +48,7 @@ func (p LineProcessor) processInsert(s string) string {
 	rows := insert.Rows.(sqlparser.Values)
 	for _, vt := range rows {
 		for i, e := range vt {
-			column := currentTable[i]
+			column := currentTable[i].Name
 
 			if processor == "table" && p.Mode == "anonymize" {
 				result, dataType = p.Config.ProcessColumn(table, column)
