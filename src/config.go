@@ -2,6 +2,7 @@ package dbanon
 
 import (
 	"errors"
+	"github.com/mpchadwick/dbanon/bindata"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"strings"
@@ -30,7 +31,7 @@ func NewConfig(requested string) (*Config, error) {
 
 	switch requested {
 	case "magento2":
-		source, _ = Asset("etc/magento2.yml")
+		source, _ = bindata.Asset("etc/magento2.yml")
 	default:
 		source, err = ioutil.ReadFile(requested)
 		if err != nil {

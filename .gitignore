@@ -1,6 +1,6 @@
 dbanon
 dbanon.log
 tmp/*
-src/bindata.go
+/bindata
 .DS_Store
 /dist
