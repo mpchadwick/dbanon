@@ -1,0 +1,4 @@
+tables:
+  - name: users
+    columns:
+      name: fullname

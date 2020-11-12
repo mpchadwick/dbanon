@@ -60,4 +60,12 @@ func TestDbanon(t *testing.T) {
 	if !strings.Contains(res4, "\"28\": street") {
 		t.Errorf("Street not processed correctly")
 	}
+
+	cmdStr5 := "cat integration/laravel.sql | ./dbanon -config=integration/laravel.yml"
+	cmd5 := exec.Command("bash", "-c", cmdStr5)
+	out5, _ := cmd5.CombinedOutput()
+	res5 := strings.TrimSpace(string(out5))
+	if strings.Contains(res5, "Bob Smith") {
+		t.Error("Expected no Bob Smith")
+	}
 }
