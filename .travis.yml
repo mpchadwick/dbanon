@@ -13,5 +13,6 @@ before_install:
 
 script:
   - go get -u github.com/shuLhan/go-bindata/...
-  - $$GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
+  - $GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
+  - GO111MODULE=on go get ./...
   - $GOPATH/bin/goveralls -service=travis-ci -ignore bindata/bindata.go
