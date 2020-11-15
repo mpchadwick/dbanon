@@ -12,4 +12,6 @@ before_install:
   - go get github.com/mattn/goveralls
 
 script:
+  - go get -u github.com/shuLhan/go-bindata/...
+  - $$GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
   - $GOPATH/bin/goveralls -service=travis-ci -ignore bindata/bindata.go
