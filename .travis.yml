@@ -7,3 +7,9 @@ go:
   - 1.15
 
 go_import_path: github.com/mpchadwick/dbanon
+
+before_install:
+  - go get github.com/mattn/goveralls
+
+script:
+  - $GOPATH/bin/goveralls -service=travis-ci -ignore bindata/bindata.go
