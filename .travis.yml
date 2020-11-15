@@ -7,3 +7,6 @@ go:
   - 1.15
 
 go_import_path: github.com/mpchadwick/dbanon
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

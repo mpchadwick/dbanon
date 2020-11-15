@@ -1,6 +1,7 @@
 dbanon
 dbanon.log
 dbanon.prof
+coverage.txt
 tmp/*
 /bindata
 .DS_Store
