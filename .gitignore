@@ -1,5 +1,6 @@
 dbanon
 dbanon.log
+dbanon.prof
 tmp/*
 /bindata
 .DS_Store

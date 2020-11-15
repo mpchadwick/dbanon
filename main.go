@@ -10,6 +10,7 @@ import (
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
 	"io/ioutil"
 	"log"
+	"runtime/pprof"
 	"os"
 )
 
@@ -40,8 +41,15 @@ func main() {
 	silent := flag.Bool("silent", false, "Disable all logging")
 	logFile := flag.String("log-file", "", "File to write logs to")
 	logLevel := flag.String("log-level", "", "Specify desired log level")
+	profile := flag.Bool("profile", false, "Generate a profile")
 
 	flag.Parse()
+
+	if *profile {
+		profF, _ := os.Create("dbanon.prof")
+		pprof.StartCPUProfile(profF)
+		defer pprof.StopCPUProfile()
+	}
 
 	if *ver {
 		fmt.Println(version)
