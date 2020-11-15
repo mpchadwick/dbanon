@@ -15,7 +15,7 @@ var version string
 func TestDbanon(t *testing.T) {
 	os.Chdir("..")
 	dir, _ := os.Getwd()
-	
+
 	cmd1 := exec.Command(path.Join(dir, binaryName))
 	out1, _ := cmd1.CombinedOutput()
 	res1 := strings.TrimSpace(string(out1))
@@ -33,7 +33,6 @@ func TestDbanon(t *testing.T) {
 	if res2 != versRes {
 		t.Errorf("Got %s expected %s", res2, versRes)
 	}
-
 
 	cmdStr3 := "cat integration/magento_raw.sql | ./dbanon -config=magento2"
 	cmd3 := exec.Command("bash", "-c", cmdStr3)

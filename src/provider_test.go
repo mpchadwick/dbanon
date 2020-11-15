@@ -46,7 +46,7 @@ func TestGet(t *testing.T) {
 		t.Errorf("Unsupported method not handled correctly")
 	}
 
-	_ = provider.Get("faker.Internet().Slug") 
+	_ = provider.Get("faker.Internet().Slug")
 	if hook.LastEntry().Message != "Could not identify arguments for Slug" {
 		t.Errorf("Malformed arguments not handled correctly")
 	}

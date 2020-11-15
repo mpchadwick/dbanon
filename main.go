@@ -5,13 +5,13 @@ import (
 	"flag"
 	"fmt"
 	"github.com/blang/semver"
-	"github.com/sirupsen/logrus"
 	"github.com/mpchadwick/dbanon/src"
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"log"
-	"runtime/pprof"
 	"os"
+	"runtime/pprof"
 )
 
 var version string
@@ -85,7 +85,6 @@ func main() {
 		}
 	}
 
-
 	config, err := dbanon.NewConfig(*requested)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -97,7 +96,7 @@ func main() {
 	// We don't want to hear about it
 	log.SetOutput(ioutil.Discard)
 	reader := bufio.NewReader(os.Stdin)
-	
+
 	args := flag.Args()
 	mode := "anonymize"
 	if len(args) > 0 && args[0] == "map-eav" {
@@ -107,7 +106,6 @@ func main() {
 	provider := dbanon.NewProvider()
 	eav := dbanon.NewEav(config)
 	processor := dbanon.NewLineProcessor(mode, config, provider, eav)
-
 
 	for {
 		text, err := reader.ReadString('\n')

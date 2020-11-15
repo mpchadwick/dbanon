@@ -6,10 +6,10 @@ import (
 )
 
 type LineProcessor struct {
-	Mode string
-	Config *Config
+	Mode     string
+	Config   *Config
 	Provider ProviderInterface
-	Eav *Eav
+	Eav      *Eav
 }
 
 func NewLineProcessor(m string, c *Config, p ProviderInterface, e *Eav) *LineProcessor {
@@ -44,7 +44,7 @@ func (p LineProcessor) processInsert(s string) string {
 	var dataType string
 
 	var entityTypeId string
-	
+
 	rows := insert.Rows.(sqlparser.Values)
 	for _, vt := range rows {
 		for i, e := range vt {
@@ -65,7 +65,7 @@ func (p LineProcessor) processInsert(s string) string {
 				} else {
 					if column == "attribute_id" {
 						attributeId = string(v.Val)
-						if (p.Mode == "anonymize") {
+						if p.Mode == "anonymize" {
 							result, dataType = p.Config.ProcessEav(table, attributeId)
 						}
 					}

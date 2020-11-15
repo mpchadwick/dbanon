@@ -9,15 +9,15 @@ import (
 
 var fakeEmail = faker.Internet().Email
 
-var rawProviders = map[string]interface{} {
-	"Lorem()": faker.Lorem(),
+var rawProviders = map[string]interface{}{
+	"Lorem()":    faker.Lorem(),
 	"Internet()": faker.Internet(),
 	"Commerce()": faker.Commerce(),
-	"Code()": faker.Code(),
-	"Number()": faker.Number(),
+	"Code()":     faker.Code(),
+	"Number()":   faker.Number(),
 }
 
-type Provider struct{
+type Provider struct {
 	providedUniqueEmails map[string]int
 }
 
@@ -107,7 +107,7 @@ func (p Provider) Get(s string) string {
 	return ""
 }
 
-func (p Provider) raw (s string) string {
+func (p Provider) raw(s string) string {
 	logger := GetLogger()
 	parts := strings.Split(s, ".")
 
@@ -132,7 +132,7 @@ func (p Provider) raw (s string) string {
 		return ""
 	}
 
-	args := parts[2][argsStart + 1 : argsEnd]
+	args := parts[2][argsStart+1 : argsEnd]
 	if args == "" {
 		out := method.Call(nil)
 		return out[0].String()

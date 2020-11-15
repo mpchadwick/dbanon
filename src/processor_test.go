@@ -33,7 +33,7 @@ func TestProcessLine(t *testing.T) {
 	processor.ProcessLine("  `firstname` varchar(32) DEFAULT NULL COMMENT 'User First Name'")
 	processor.ProcessLine(") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin User Table'")
 	processor.ProcessLine("/*!40101 SET character_set_client = @saved_cs_client */;")
-	
+
 	r2 := processor.ProcessLine("INSERT INTO `admin_user` (`firstname`) VALUES ('bob');")
 	if strings.Contains(r2, "bob") {
 		t.Error("Got bob wanted no bob")
@@ -89,14 +89,13 @@ func TestEavProcessLine(t *testing.T) {
 	eav := NewEav(config)
 	processor := NewLineProcessor(mode, config, provider, eav)
 
-
 	processor.ProcessLine("CREATE TABLE `eav_entity_type` (")
 	processor.ProcessLine("  `entity_type_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Type ID',")
 	processor.ProcessLine("  `entity_type_code` varchar(50) NOT NULL COMMENT 'Entity Type Code'")
 	processor.ProcessLine(") ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Type';")
 	processor.ProcessLine("/*!40101 SET character_set_client = @saved_cs_client */;")
 	processor.ProcessLine("INSERT INTO `eav_entity_type` (`entity_type_id`, `entity_type_code`) VALUES (1, 'customer');")
-	
+
 	processor.ProcessLine("CREATE TABLE `eav_attribute` (")
 	processor.ProcessLine("  `attribute_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Attribute ID',")
 	processor.ProcessLine("  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',")
@@ -124,6 +123,6 @@ func TestEavProcessLine(t *testing.T) {
 
 	if !r2 {
 		t.Errorf("Got false wanted true")
-	}			
+	}
 
 }

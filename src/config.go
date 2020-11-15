@@ -10,11 +10,11 @@ import (
 
 type Config struct {
 	Tables []struct {
-		Name string `yaml:"name"`
+		Name    string            `yaml:"name"`
 		Columns map[string]string `yaml:"columns"`
 	}
 	Eav []struct {
-		Name string `yaml:"name"`
+		Name       string            `yaml:"name"`
 		Attributes map[string]string `yaml:"attributes"`
 	}
 }
@@ -48,10 +48,9 @@ func (c Config) String() ([]byte, error) {
 	return yaml.Marshal(c)
 }
 
-
 func (c Config) ProcessTable(t string) string {
 	for _, table := range c.Tables {
-		if (table.Name == t) {
+		if table.Name == t {
 			return "table"
 		}
 	}
@@ -74,7 +73,7 @@ func (c Config) ProcessTable(t string) string {
 
 func (c Config) ProcessColumn(t string, col string) (bool, string) {
 	for _, table := range c.Tables {
-		if (table.Name != t) {
+		if table.Name != t {
 			continue
 		}
 

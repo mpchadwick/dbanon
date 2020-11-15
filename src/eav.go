@@ -1,7 +1,7 @@
 package dbanon
 
-type Eav struct{
-	Config *Config
+type Eav struct {
+	Config    *Config
 	entityMap map[string]string
 }
 
