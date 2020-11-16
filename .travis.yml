@@ -8,5 +8,12 @@ go:
 
 go_import_path: github.com/mpchadwick/dbanon
 
+before_script:
+  - curl -sfL https://raw.githubusercontent.com/knqyf263/cob/master/install.sh | sudo sh -s -- -b /usr/local/bin
+
+script:
+  - make
+  - cob -bench-cmd make -bench-args bench
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
