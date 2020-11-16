@@ -1,0 +1,6 @@
+tables:
+  - name: users
+    columns:
+      name: fullname
+      email: unique_email
+      password: password

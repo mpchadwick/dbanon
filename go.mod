@@ -9,6 +9,8 @@ require (
 	github.com/rhysd/go-github-selfupdate v1.2.2
 	github.com/shuLhan/go-bindata v4.0.0+incompatible // indirect
 	github.com/sirupsen/logrus v1.7.0
+	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
+	golang.org/x/tools v0.0.0-20201114224030-61ea331ec02b // indirect
 	gopkg.in/yaml.v2 v2.3.0
 	syreclabs.com/go/faker v1.2.2
 )

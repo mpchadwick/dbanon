@@ -1,6 +1,8 @@
 package dbanon
 
 import (
+	"bufio"
+	"os"
 	"strings"
 	"testing"
 )
@@ -15,6 +17,27 @@ func NewTestProvider() *TestProvider {
 
 func (p TestProvider) Get(s string) string {
 	return s
+}
+
+func BenchmarkProcessLine(b *testing.B) {
+	config, _ := NewConfig("benchmark/laravel1.yml")
+	provider := NewProvider()
+	mode := "anonymize"
+	eav := NewEav(config)
+	processor := NewLineProcessor(mode, config, provider, eav)
+
+	for n := 0; n < b.N; n++ {
+		f, _ := os.Open("benchmark/laravel1.yml")
+		reader := bufio.NewReader(f)
+		for {
+			text, err := reader.ReadString('\n')
+			_ = processor.ProcessLine(text)
+			if err != nil {
+				break
+			}
+		}
+
+	}
 }
 
 func TestProcessLine(t *testing.T) {
