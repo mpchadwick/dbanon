@@ -20,14 +20,15 @@ func (p TestProvider) Get(s string) string {
 }
 
 func BenchmarkProcessLine(b *testing.B) {
-	config, _ := NewConfig("benchmark/laravel1.yml")
+	pwd, _ := os.Getwd()
+	config, _ := NewConfig(pwd + "/../benchmark/laravel1.yml")
 	provider := NewProvider()
 	mode := "anonymize"
 	eav := NewEav(config)
 	processor := NewLineProcessor(mode, config, provider, eav)
 
 	for n := 0; n < b.N; n++ {
-		f, _ := os.Open("benchmark/laravel1.yml")
+		f, _ := os.Open(pwd + "/../benchmark/laravel1.sql")
 		reader := bufio.NewReader(f)
 		for {
 			text, err := reader.ReadString('\n')
