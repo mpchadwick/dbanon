@@ -2,6 +2,7 @@ package dbanon
 
 import (
 	"github.com/sirupsen/logrus/hooks/test"
+	"regexp"
 	"testing"
 )
 
@@ -49,5 +50,30 @@ func TestGet(t *testing.T) {
 	_ = provider.Get("faker.Internet().Slug")
 	if hook.LastEntry().Message != "Could not identify arguments for Slug" {
 		t.Errorf("Malformed arguments not handled correctly")
+	}
+
+	// https://github.com/dmgk/faker/blob/v1.2.3/name_test.go#L10
+	r5 := provider.Get("firstname")
+	rx1 := `[A-Z][a-z']+`
+	if m, _ := regexp.MatchString(rx1, r5); !m {
+		t.Errorf("Expected %v to match %v", r5, rx1)
+	}
+
+	r6 := provider.Get("lastname")
+	if m, _ := regexp.MatchString(rx1, r6); !m {
+		t.Errorf("Expected %v to match %v", r6, rx1)
+	}
+
+	rx2 := `[A-Z][a-z']+ [A-Z][a-z']+`
+	r7 := provider.Get("fullname")
+	if m, _ := regexp.MatchString(rx2, r7); !m {
+		t.Errorf("Expected %v to match %v", r7, rx2)
+	}
+
+	// https://github.com/dmgk/faker/blob/master/internet_test.go#L25
+	rx3 := `\w+`
+	r8 := provider.Get("username")
+	if m, _ := regexp.MatchString(rx3, r8); !m {
+		t.Errorf("Expected %v to match %v", r8, rx3)
 	}
 }
