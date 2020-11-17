@@ -98,4 +98,12 @@ func TestGet(t *testing.T) {
 	if r11Time.Before(from) || r11Time.After(to) {
 		t.Errorf("%v not in expected range [%v, %v]", r11Time, from, to)
 	}
+
+	// https://github.com/dmgk/faker/blob/master/name_test.go#L22
+	rx5 := `[A-Z][a-z]*\.?`
+	r12 := provider.Get("customer_suffix")
+	if m, _ := regexp.MatchString(rx5, r12); !m {
+		t.Errorf("Expected %v to match %v", r12, rx5)
+	}
+
 }
