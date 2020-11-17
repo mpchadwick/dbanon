@@ -112,4 +112,10 @@ func TestGet(t *testing.T) {
 	if m, _ := regexp.MatchString(rx6, r13); !m {
 		t.Errorf("Expected %v to match %v", r13, rx6)
 	}
+
+	// https://github.com/dmgk/faker/blob/master/address_test.go#L60
+	r14 := provider.Get("state")
+	if m, _ := regexp.MatchString(rx3, r14); !m {
+		t.Errorf("Expected %v to match %v", r14, rx3)
+	}
 }
