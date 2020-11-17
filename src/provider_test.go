@@ -4,6 +4,7 @@ import (
 	"github.com/sirupsen/logrus/hooks/test"
 	"regexp"
 	"testing"
+	"time"
 )
 
 func TestGet(t *testing.T) {
@@ -75,5 +76,26 @@ func TestGet(t *testing.T) {
 	r8 := provider.Get("username")
 	if m, _ := regexp.MatchString(rx3, r8); !m {
 		t.Errorf("Expected %v to match %v", r8, rx3)
+	}
+
+	// https://github.com/dmgk/faker/blob/master/internet_test.go#L9
+	rx4 := `\w+@\w+\.\w+`
+	r9 := provider.Get("email")
+	if m, _ := regexp.MatchString(rx4, r9); !m {
+		t.Errorf("Expected %v to match %v", r9, rx4)
+	}
+
+	// https://github.com/dmgk/faker/blob/master/internet_test.go#L9
+	r10 := provider.Get("password")
+	if m, _ := regexp.MatchString(rx3, r10); !m {
+		t.Errorf("Expected %v to match %v", r9, rx4)
+	}
+
+	to := time.Now()
+	from := to.AddDate(-40, 0, 0)
+	r11a := provider.Get("datetime")
+	r11Time, _ := time.Parse("2006-01-02 15:04:05", r11a)
+	if r11Time.Before(from) || r11Time.After(to) {
+		t.Errorf("%v not in expected range [%v, %v]", r11Time, from, to)
 	}
 }
