@@ -106,4 +106,10 @@ func TestGet(t *testing.T) {
 		t.Errorf("Expected %v to match %v", r12, rx5)
 	}
 
+	// https://github.com/dmgk/faker/blob/master/internet_test.go#L51
+	rx6 := `(\d{1,3}\.){3}\d{1,3}`
+	r13 := provider.Get("ipv4")
+	if m, _ := regexp.MatchString(rx6, r13); !m {
+		t.Errorf("Expected %v to match %v", r13, rx6)
+	}
 }
