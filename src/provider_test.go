@@ -138,4 +138,10 @@ func TestGet(t *testing.T) {
 	if m, _ := regexp.MatchString(rx8, r17); !m {
 		t.Errorf("Expected %v to match %v", r17, rx8)
 	}
+
+	// https://github.com/dmgk/faker/blob/v1.2.3/phone_number_test.go#L12
+	r18 := provider.Get("telephone")
+	if m, _ := regexp.MatchString(rx3, r18); !m {
+		t.Errorf("Expected %v to match %v", r18, rx3)
+	}
 }
