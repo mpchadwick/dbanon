@@ -1,7 +1,6 @@
 language: go
 
 go:
-  - 1.12
   - 1.13
   - 1.14
   - 1.15
@@ -14,6 +13,7 @@ before_script:
 script:
   - make
   - cob -bench-cmd make -bench-args bench
+  - diff -u <(echo -n) <(gofmt -d ./)
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
