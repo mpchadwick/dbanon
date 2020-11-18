@@ -131,4 +131,11 @@ func TestGet(t *testing.T) {
 	if m, _ := regexp.MatchString(rx7, r16); !m {
 		t.Errorf("Expected %v to match %v", r16, rx7)
 	}
+
+	// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L17
+	rx8 := `\d+\s[A-Z][a-z']+`
+	r17 := provider.Get("street")
+	if m, _ := regexp.MatchString(rx8, r17); !m {
+		t.Errorf("Expected %v to match %v", r17, rx8)
+	}
 }
