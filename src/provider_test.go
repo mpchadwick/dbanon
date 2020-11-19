@@ -3,11 +3,12 @@ package dbanon
 import (
 	"github.com/sirupsen/logrus/hooks/test"
 	"regexp"
+	"strconv"
 	"testing"
 	"time"
 )
 
-func TestGet(t *testing.T) {
+func TestGetForEtcCases(t *testing.T) {
 	testLogger, hook := test.NewNullLogger()
 	SetLogger(testLogger)
 
@@ -21,11 +22,6 @@ func TestGet(t *testing.T) {
 	r1 := provider.Get("unique_email")
 	if r1 != "1bob@example.com" {
 		t.Errorf("Got %s wanted 1bob@example.com", r1)
-	}
-
-	r4 := provider.Get("faker.Number().Between(1, 550)")
-	if r4 == "" {
-		t.Errorf("Got empty string, expecting number between 1 and 550")
 	}
 
 	_ = provider.Get("faker.Whoops1")
@@ -58,16 +54,28 @@ func TestGetForLengthBasedOptions(t *testing.T) {
 		input  string
 		wantGt int
 		wantLt int
+		isStr  bool
 	}{
-		"md5":     {input: "md5", wantGt: 31, wantLt: 33},
-		"note255": {input: "note255", wantGt: 49, wantLt: 51},
+		"md5":                            {input: "md5", wantGt: 31, wantLt: 33, isStr: true},
+		"note255":                        {input: "note255", wantGt: 49, wantLt: 51, isStr: true},
+		"region_id":                      {input: "region_id", wantGt: 0, wantLt: 551, isStr: false},
+		"faker.Number().Between(1, 550)": {input: "faker.Number().Between(1, 550)", wantGt: 0, wantLt: 551, isStr: false},
+		"gender":                         {input: "gender", wantGt: 0, wantLt: 4, isStr: false},
+		"shipment_tracking_number":       {input: "shipment_tracking_number", wantGt: 17, wantLt: 19, isStr: true},
 	}
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
 			got := provider.Get(tc.input)
-			if len(got) < tc.wantGt || len(got) > tc.wantLt {
-				t.Errorf("Expected %v to be greater than %v and less than %v", got, tc.wantGt, tc.wantLt)
+			var compare int
+			if tc.isStr {
+				compare = len(got)
+			} else {
+				compare, _ = strconv.Atoi(got)
+			}
+
+			if compare < tc.wantGt || compare > tc.wantLt {
+				t.Errorf("Expected %v to be greater than %v and less than %v", compare, tc.wantGt, tc.wantLt)
 			}
 		})
 	}
@@ -112,6 +120,9 @@ func TestGetForSimpleRegexOptions(t *testing.T) {
 		"company": {input: "company", want: `[A-Z][a-z]+?`},
 		// https://github.com/dmgk/faker/blob/v1.2.3/lorem_test.go#L37-L46
 		"faker.Lorem().Sentence(3)": {input: "faker.Lorem().Sentence(3)", want: `[A-Z]\w*\s\w+\s\w+\.`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L72
+		"country_code": {input: "country_code", want: `\w+`},
+		"vat_number":   {input: "vat_number", want: `GB[1-9][0-9]{8}`},
 	}
 
 	for name, tc := range tests {
