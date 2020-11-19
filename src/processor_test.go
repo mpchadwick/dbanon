@@ -3,6 +3,7 @@ package dbanon
 import (
 	"bufio"
 	"os"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -104,6 +105,21 @@ func TestProcessLine(t *testing.T) {
 	if !strings.Contains(r4c, "jane") {
 		t.Error("Got no jane wanted jane")
 	}
+
+	processor.ProcessLine("CREATE TABLE `migrations` (")
+	processor.ProcessLine("  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,")
+	processor.ProcessLine("  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,")
+	processor.ProcessLine("  `batch` int(11) NOT NULL,")
+	processor.ProcessLine("  PRIMARY KEY (`id`)")
+	processor.ProcessLine(") ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;")
+	processor.ProcessLine("/*!40101 SET character_set_client = @saved_cs_client */;")
+
+	r5before := "INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1)"
+	r5after := processor.ProcessLine(r5before)
+	if !reflect.DeepEqual(r5before, r5after) {
+		t.Errorf("Expected %v to equal %v", r5before, r5after)
+	}
+
 }
 
 func TestEavProcessLine(t *testing.T) {
