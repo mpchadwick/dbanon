@@ -28,11 +28,6 @@ func TestGet(t *testing.T) {
 		t.Errorf("Got empty string, expecting faker sentence")
 	}
 
-	r3 := provider.Get("faker.Internet().Slug()")
-	if r3 == "" {
-		t.Errorf("Got empty string, expecting faker slug")
-	}
-
 	r4 := provider.Get("faker.Number().Between(1, 550)")
 	if r4 == "" {
 		t.Errorf("Got empty string, expecting number between 1 and 550")
@@ -53,44 +48,6 @@ func TestGet(t *testing.T) {
 		t.Errorf("Malformed arguments not handled correctly")
 	}
 
-	// https://github.com/dmgk/faker/blob/v1.2.3/name_test.go#L10
-	r5 := provider.Get("firstname")
-	rx1 := `[A-Z][a-z']+`
-	if m, _ := regexp.MatchString(rx1, r5); !m {
-		t.Errorf("Expected %v to match %v", r5, rx1)
-	}
-
-	r6 := provider.Get("lastname")
-	if m, _ := regexp.MatchString(rx1, r6); !m {
-		t.Errorf("Expected %v to match %v", r6, rx1)
-	}
-
-	rx2 := `[A-Z][a-z']+ [A-Z][a-z']+`
-	r7 := provider.Get("fullname")
-	if m, _ := regexp.MatchString(rx2, r7); !m {
-		t.Errorf("Expected %v to match %v", r7, rx2)
-	}
-
-	// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L25
-	rx3 := `\w+`
-	r8 := provider.Get("username")
-	if m, _ := regexp.MatchString(rx3, r8); !m {
-		t.Errorf("Expected %v to match %v", r8, rx3)
-	}
-
-	// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L9
-	rx4 := `\w+@\w+\.\w+`
-	r9 := provider.Get("email")
-	if m, _ := regexp.MatchString(rx4, r9); !m {
-		t.Errorf("Expected %v to match %v", r9, rx4)
-	}
-
-	// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L9
-	r10 := provider.Get("password")
-	if m, _ := regexp.MatchString(rx3, r10); !m {
-		t.Errorf("Expected %v to match %v", r9, rx4)
-	}
-
 	to := time.Now()
 	from := to.AddDate(-40, 0, 0)
 	r11a := provider.Get("datetime")
@@ -98,50 +55,54 @@ func TestGet(t *testing.T) {
 	if r11Time.Before(from) || r11Time.After(to) {
 		t.Errorf("%v not in expected range [%v, %v]", r11Time, from, to)
 	}
+}
 
-	// https://github.com/dmgk/faker/blob/v1.2.3/name_test.go#L22
-	rx5 := `[A-Z][a-z]*\.?`
-	r12 := provider.Get("customer_suffix")
-	if m, _ := regexp.MatchString(rx5, r12); !m {
-		t.Errorf("Expected %v to match %v", r12, rx5)
+func TestGetForSimpleRegexOptions(t *testing.T) {
+	fakeEmail = func() string {
+		return "bob@example.com"
 	}
 
-	// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L51
-	rx6 := `(\d{1,3}\.){3}\d{1,3}`
-	r13 := provider.Get("ipv4")
-	if m, _ := regexp.MatchString(rx6, r13); !m {
-		t.Errorf("Expected %v to match %v", r13, rx6)
+	provider := NewProvider()
+	_ = provider.Get("unique_email")
+
+	tests := map[string]struct {
+		input string
+		want  string
+	}{
+		// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L63
+		"faker.Internet().Slug()": {input: "faker.Internet().Slug()", want: `\w+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/name_test.go#L10
+		"firstname": {input: "firstname", want: `[A-Z][a-z']+`},
+		"lastname":  {input: "lastname", want: `[A-Z][a-z']+`},
+		"fullname":  {input: "fullname", want: `[A-Z][a-z']+ [A-Z][a-z']+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L25
+		"username": {input: "username", want: `\w+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L9
+		"email": {input: "email", want: `\w+@\w+\.\w+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L9
+		"password": {input: "password", want: `\w+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/phone_number_test.go#L12
+		"telephone": {input: "telephone", want: `\w+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L17
+		"street": {input: "street", want: `\d+\s[A-Z][a-z']+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L30
+		"postcode": {input: "postcode", want: `[\d-]+`},
+		// // https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L10
+		"city": {input: "city", want: `[A-Z][a-z']+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L60
+		"state": {input: "state", want: `\w+`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/internet_test.go#L51
+		"ipv4": {input: "ipv4", want: `(\d{1,3}\.){3}\d{1,3}`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/name_test.go#L22
+		"customer_suffix": {input: "customer_suffix", want: `[A-Z][a-z]*\.?`},
 	}
 
-	// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L60
-	r14 := provider.Get("state")
-	if m, _ := regexp.MatchString(rx3, r14); !m {
-		t.Errorf("Expected %v to match %v", r14, rx3)
-	}
-
-	// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L10
-	r15 := provider.Get("city")
-	if m, _ := regexp.MatchString(rx1, r15); !m {
-		t.Errorf("Expected %v to match %v", r15, rx1)
-	}
-
-	// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L30
-	rx7 := `[\d-]+`
-	r16 := provider.Get("postcode")
-	if m, _ := regexp.MatchString(rx7, r16); !m {
-		t.Errorf("Expected %v to match %v", r16, rx7)
-	}
-
-	// https://github.com/dmgk/faker/blob/v1.2.3/address_test.go#L17
-	rx8 := `\d+\s[A-Z][a-z']+`
-	r17 := provider.Get("street")
-	if m, _ := regexp.MatchString(rx8, r17); !m {
-		t.Errorf("Expected %v to match %v", r17, rx8)
-	}
-
-	// https://github.com/dmgk/faker/blob/v1.2.3/phone_number_test.go#L12
-	r18 := provider.Get("telephone")
-	if m, _ := regexp.MatchString(rx3, r18); !m {
-		t.Errorf("Expected %v to match %v", r18, rx3)
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			got := provider.Get(tc.input)
+			if m, _ := regexp.MatchString(tc.want, got); !m {
+				t.Errorf("Expected %v to match %v", got, tc.want)
+			}
+		})
 	}
 }
