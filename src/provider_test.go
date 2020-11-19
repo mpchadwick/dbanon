@@ -23,11 +23,6 @@ func TestGet(t *testing.T) {
 		t.Errorf("Got %s wanted 1bob@example.com", r1)
 	}
 
-	r2 := provider.Get("faker.Lorem().Sentence(6)")
-	if r2 == "" {
-		t.Errorf("Got empty string, expecting faker sentence")
-	}
-
 	r4 := provider.Get("faker.Number().Between(1, 550)")
 	if r4 == "" {
 		t.Errorf("Got empty string, expecting number between 1 and 550")
@@ -57,13 +52,29 @@ func TestGet(t *testing.T) {
 	}
 }
 
-func TestGetForSimpleRegexOptions(t *testing.T) {
-	fakeEmail = func() string {
-		return "bob@example.com"
+func TestGetForLengthBasedOptions(t *testing.T) {
+	provider := NewProvider()
+	tests := map[string]struct {
+		input  string
+		wantGt int
+		wantLt int
+	}{
+		"md5":     {input: "md5", wantGt: 31, wantLt: 33},
+		"note255": {input: "note255", wantGt: 49, wantLt: 51},
 	}
 
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			got := provider.Get(tc.input)
+			if len(got) < tc.wantGt || len(got) > tc.wantLt {
+				t.Errorf("Expected %v to be greater than %v and less than %v", got, tc.wantGt, tc.wantLt)
+			}
+		})
+	}
+}
+
+func TestGetForSimpleRegexOptions(t *testing.T) {
 	provider := NewProvider()
-	_ = provider.Get("unique_email")
 
 	tests := map[string]struct {
 		input string
@@ -95,6 +106,12 @@ func TestGetForSimpleRegexOptions(t *testing.T) {
 		"ipv4": {input: "ipv4", want: `(\d{1,3}\.){3}\d{1,3}`},
 		// https://github.com/dmgk/faker/blob/v1.2.3/name_test.go#L22
 		"customer_suffix": {input: "customer_suffix", want: `[A-Z][a-z]*\.?`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/name_test.go#L18
+		"title": {input: "title", want: `[A-Z][a-z]+\.?`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/company_test.go#L10
+		"company": {input: "company", want: `[A-Z][a-z]+?`},
+		// https://github.com/dmgk/faker/blob/v1.2.3/lorem_test.go#L37-L46
+		"faker.Lorem().Sentence(3)": {input: "faker.Lorem().Sentence(3)", want: `[A-Z]\w*\s\w+\s\w+\.`},
 	}
 
 	for name, tc := range tests {
