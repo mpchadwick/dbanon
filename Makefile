@@ -2,6 +2,8 @@ VERSION := $(shell git describe --tags 2>/dev/null)
 LDFLAGS = -X main.version=$(VERSION)
 
 build:
+	rm -rf bindata
+	test -z $(shell gofmt -l ./)
 	go get -u github.com/shuLhan/go-bindata/...
 	$$GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
 	GO111MODULE=on go get ./...

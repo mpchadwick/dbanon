@@ -11,7 +11,6 @@ before_script:
   - curl -sfL https://raw.githubusercontent.com/knqyf263/cob/master/install.sh | sudo sh -s -- -b /usr/local/bin
 
 script:
-  - diff -u <(echo -n) <(gofmt -d ./)
   - make
   - cob -bench-cmd make -bench-args bench
 
