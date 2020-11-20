@@ -1,0 +1,171 @@
+tables:
+- name: admin_user
+  columns:
+    email: unique_email
+    firstname: firstname
+    lastname: lastname
+    password: password
+    username: username
+- name: customer_entity
+  columns:
+    email: unique_email
+    firstname: firstname
+    lastname: lastname
+    vat_id: vat_number
+- name: customer_grid_flat
+  columns:
+    billing_city: city
+    billing_company: company
+    billing_country_id: country_code
+    billing_fax: telephone
+    billing_firstname: firstname
+    billing_full: street
+    billing_lastname: lastname
+    billing_postcode: postcode
+    billing_region: state
+    billing_street: street
+    billing_telephone: telephone
+    billing_vat_id: vat_number
+    dob: date
+    email: unique_email
+    gender: gender
+    name: fullname
+    shipping_full: street
+    taxvat: vat_number
+- name: customer_address_entity
+  columns:
+    city: city
+    company: company
+    fax: telephone
+    firstname: firstname
+    lastname: lastname
+    postcode: postcode
+    street: street
+    telephone: telephone
+    vat_id: vat_number
+- name: newsletter_subscriber
+  columns:
+    subscriber_confirm_code: md5
+    subscriber_email: unique_email
+- name: quote
+  columns:
+    customer_dob: datetime
+    customer_email: unique_email
+    customer_firstname: firstname
+    customer_lastname: lastname
+    customer_middlename: firstname
+    customer_note: note255
+    customer_prefix: title
+    customer_suffix: customer_suffix
+    remote_ip: ipv4
+- name: quote_address
+  columns:
+    city: city
+    company: company
+    country_id: country_code
+    email: unique_email
+    fax: telephone
+    firstname: firstname
+    lastname: lastname
+    postcode: postcode
+    prefix: title
+    region: state
+    region_id: region_id
+    street: street
+    suffix: customer_suffix
+    telephone: telephone
+    vat_id: vat_number
+- name: rating_option_vote
+  columns:
+    remote_ip: ipv4
+- name: review_detail
+  columns:
+    nickname: username
+- name: sales_creditmemo_grid
+  columns:
+    billing_address: street
+    billing_name: fullname
+    customer_email: unique_email
+    customer_name: fullname
+    shipping_address: street
+- name: sales_invoice_grid
+  columns:
+    billing_address: street
+    billing_name: fullname
+    customer_email: unique_email
+    customer_name: fullname
+    shipping_address: street
+- name: sales_order
+  columns:
+    customer_dob: datetime
+    customer_email: unique_email
+    customer_firstname: firstname
+    customer_lastname: lastname
+    customer_middlename: firstname
+    customer_prefix: title
+    customer_suffix: customer_suffix
+    remote_ip: ipv4
+    x_forwarded_for: ipv4
+- name: sales_order_address
+  columns:
+    city: city
+    company: company
+    email: unique_email
+    firstname: firstname
+    lastname: lastname
+    middlename: firstname
+    postcode: postcode
+    prefix: title
+    region: state
+    street: street
+    suffix: customer_suffix
+    telephone: telephone
+- name: sales_order_grid
+  columns:
+    billing_address: street
+    billing_name: fullname
+    customer_email: unique_email
+    cutomer_name: fullname
+    shipping_address: street
+    shipping_name: fullname
+- name: sales_shipment_grid
+  columns:
+    billing_address: street
+    billing_name: fullname
+    customer_email: unique_email
+    customer_name: fullname
+    shipping_address: street
+    shipping_name: fullname
+- name: sendfriend_log
+  columns:
+    ip: ipv4
+eav:
+- name: customer
+  attributes:
+    dob: datetime
+    email: unique_email
+    firstname: firstname
+    gender: gender
+    lastname: lastname
+    middlename: firstname
+    password_hash: password
+    prefix: title
+    suffix: customer_suffix
+    taxvat: vat_number
+- name: customer_address
+  attributes:
+    city: city
+    company: company
+    country_id: country_code
+    fax: telephone
+    firstname: firstname
+    lastname: lastname
+    middlename: firstname
+    postcode: postcode
+    prefix: title
+    region: state
+    region_id: region_id
+    street: street
+    suffix: customer_suffix
+    telephone: telephone
+    vat_id: vat_number

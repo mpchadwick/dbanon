@@ -1,6 +1,9 @@
 package dbanon
 
 import (
+	"io/ioutil"
+	"os"
+	"reflect"
 	"testing"
 )
 
@@ -18,6 +21,18 @@ func TestNewConfig(t *testing.T) {
 	_, err3 := NewConfig("doesnt-exist")
 	if err3 == nil {
 		t.Error("Got no error want error")
+	}
+}
+
+func TestString(t *testing.T) {
+	c, _ := NewConfig("magento2")
+	actual, _ := c.String()
+
+	pwd, _ := os.Getwd()
+	expected, _ := ioutil.ReadFile(pwd + "/../testdata/magento2.yml")
+
+	if !reflect.DeepEqual(actual, expected) {
+		t.Errorf("actual = %v, expected = %v", actual, expected)
 	}
 }
 
