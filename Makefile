@@ -15,3 +15,4 @@ build:
 bench:
 	$$GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
 	GO111MODULE=on go test -run=XXX -bench=. -benchtime=20s $$GOPATH/src/github.com/mpchadwick/dbanon/src
+	rm -rf bindata
