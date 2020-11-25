@@ -104,6 +104,9 @@ func (p Provider) Get(s string) string {
 		return "GB" + faker.Number().Between(100000000, 999999999)
 	}
 
+	logger := GetLogger()
+	logger.Error(s + " does not match any known type")
+
 	return ""
 }
 

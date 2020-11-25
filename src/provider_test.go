@@ -39,6 +39,11 @@ func TestGetForEtcCases(t *testing.T) {
 		t.Errorf("Malformed arguments not handled correctly")
 	}
 
+	_ = provider.Get("firstnaaaaame")
+	if hook.LastEntry().Message != "firstnaaaaame does not match any known type" {
+		t.Errorf("Unknown provider type not handled correctly")
+	}
+
 	to := time.Now()
 	from := to.AddDate(-40, 0, 0)
 	r11a := provider.Get("datetime")
