@@ -2,16 +2,18 @@ package dbanon
 
 import (
 	"github.com/blastrain/vitess-sqlparser/sqlparser"
+	"strconv"
 	"strings"
 )
 
 type Column struct {
-	Name string
-	Type string
+	Name      string
+	Type      string
+	MaxLength int
 }
 
-func NewColumn(n string, t string) *Column {
-	return &Column{Name: n, Type: t}
+func NewColumn(n string, t string, i int) *Column {
+	return &Column{Name: n, Type: t, MaxLength: i}
 }
 
 var nextTable = ""
@@ -26,7 +28,7 @@ func findNextTable(s string) {
 			currentTable = nil
 			createTable := stmt.(*sqlparser.CreateTable)
 			for _, col := range createTable.Columns {
-				column := NewColumn(col.Name, col.Type)
+				column := NewColumn(col.Name, col.Type, extractMaxLength(col.Type))
 				currentTable = append(currentTable, column)
 			}
 			nextTable = ""
@@ -39,4 +41,22 @@ func findNextTable(s string) {
 	if k == 0 {
 		nextTable += s
 	}
+}
+
+func extractMaxLength(s string) int {
+	s = strings.ToLower(s)
+	// For now we'll only worry about VARCHAR...I've never heard of
+	// this being needed in practice anyway...
+	j := strings.Index(s, "varchar")
+	if j != 0 {
+		return -1
+	}
+
+	lenStart := strings.Index(s, "(")
+	lenEnd := strings.Index(s, ")")
+
+	len := s[lenStart+1 : lenEnd]
+	i, _ := strconv.Atoi(len)
+
+	return i
 }

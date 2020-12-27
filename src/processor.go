@@ -29,7 +29,14 @@ func (p LineProcessor) ProcessLine(s string) string {
 
 func (p LineProcessor) processInsert(s string) string {
 	stmt, _ := sqlparser.Parse(s)
-	insert := stmt.(*sqlparser.Insert)
+	insert, ok := stmt.(*sqlparser.Insert)
+
+	// This _shouldn't happen but the statement might not be an Insert
+	// For example, it'll be nil if the binary charset introducer is foudn
+	// https://github.com/blastrain/vitess-sqlparser/issues/25
+	if !ok {
+		return s
+	}
 
 	table := insert.Table.Name.String()
 
