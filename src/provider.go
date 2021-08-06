@@ -10,11 +10,24 @@ import (
 var fakeEmail = faker.Internet().Email
 
 var rawProviders = map[string]interface{}{
-	"Lorem()":    faker.Lorem(),
-	"Internet()": faker.Internet(),
-	"Commerce()": faker.Commerce(),
-	"Code()":     faker.Code(),
-	"Number()":   faker.Number(),
+    "Address()": faker.Address(),
+    "App()": faker.App(),
+    "Avatar()": faker.Avatar(),
+    "Bitcoin()": faker.Bitcoin(),
+    "Business()": faker.Business(),
+    "Code()": faker.Code(),
+    "Commerce()": faker.Commerce(),
+    "Company()": faker.Company(),
+    "Date()": faker.Date(),
+    "Finance()": faker.Finance(),
+    "Hacker()": faker.Hacker(),
+    "Internet()": faker.Internet(),
+    "Lorem()": faker.Lorem(),
+    "Name()": faker.Name(),
+    "Number()": faker.Number(),
+    "PhoneNumber()": faker.PhoneNumber(),
+    "Team()": faker.Team(),
+    "Time()": faker.Time(),
 }
 
 type Provider struct {

@@ -16,20 +16,20 @@ Download [the latest release from GitHub](https://github.com/mpchadwick/dbanon/r
 mysqldump mydb | dbanon -config=myconfig.yml | gzip > mydb.sql.gz
 ```
 
-The `-config` flag can use bundled configurations or point to the path of a custom configuration file. 
+The `-config` flag should point to the path of a custom configuration file. 
 
 ### Configuration
 
 #### Magento 2
 
-`dbanon` bundles a [default Magento 2 configuration file](etc/magento2.yml). However you almost certainly won't use it directly.
+`dbanon` repository has an example [Magento 2 configuration file](etc/magento2.yml). However you almost certainly won't use it directly.
 
 At minimum, you'll first need to run the `map-eav` subcommand. This translates EAV attribute codes to their respective attribute ids.
 
 You must feed it a `mysqldump` of `eav_entity_type` and `eav_attribute` (in that order).
 
 ```
-mysqldump mydb eav_entity_type eav_attribute | dbanon -config=magento2 map-eav > ~/magento2-mapped.yml
+mysqldump mydb eav_entity_type eav_attribute | dbanon -config=etc/magento2.yml map-eav > ~/magento2-mapped.yml
 ```
 
 `map-eav` will replace the attribute codes in the config file with attribute ids and print an updated config to `stdout`.

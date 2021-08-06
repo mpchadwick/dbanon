@@ -6,3 +6,4 @@ tmp/*
 /bindata
 .DS_Store
 /dist
+.idea/
