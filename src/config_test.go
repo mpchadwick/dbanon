@@ -1,9 +1,7 @@
 package dbanon
 
 import (
-	"io/ioutil"
 	"os"
-	"reflect"
 	"testing"
 )
 
@@ -13,31 +11,15 @@ func TestNewConfig(t *testing.T) {
 		t.Error("Got no error want error")
 	}
 
-	_, err2 := NewConfig("magento2")
-	if err2 != nil {
-		t.Error("Got error want no error")
-	}
-
-	_, err3 := NewConfig("doesnt-exist")
-	if err3 == nil {
+	_, err2 := NewConfig("doesnt-exist")
+	if err2 == nil {
 		t.Error("Got no error want error")
 	}
 }
 
-func TestString(t *testing.T) {
-	c, _ := NewConfig("magento2")
-	actual, _ := c.String()
-
-	pwd, _ := os.Getwd()
-	expected, _ := ioutil.ReadFile(pwd + "/../testdata/magento2.yml")
-
-	if !reflect.DeepEqual(actual, expected) {
-		t.Errorf("actual = %v, expected = %v", actual, expected)
-	}
-}
-
 func TestProcessTable(t *testing.T) {
-	c, _ := NewConfig("magento2")
+	pwd, _ := os.Getwd()
+	c, _ := NewConfig(pwd + "/../testdata/magento2.yml")
 
 	r1 := c.ProcessTable("admin_user")
 	if r1 != "table" {
@@ -61,7 +43,8 @@ func TestProcessTable(t *testing.T) {
 }
 
 func TestProcessColumn(t *testing.T) {
-	c, _ := NewConfig("magento2")
+	pwd, _ := os.Getwd()
+	c, _ := NewConfig(pwd + "/../testdata/magento2.yml")
 
 	process, format := c.ProcessColumn("admin_user", "firstname")
 	if !process {
@@ -81,7 +64,8 @@ func TestProcessColumn(t *testing.T) {
 }
 
 func TestProcessEav(t *testing.T) {
-	c, _ := NewConfig("magento2")
+	pwd, _ := os.Getwd()
+	c, _ := NewConfig(pwd + "/../testdata/magento2.yml")
 
 	for _, e := range c.Eav {
 		if e.Name == "customer" {

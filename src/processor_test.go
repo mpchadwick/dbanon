@@ -43,7 +43,8 @@ func BenchmarkProcessLine(b *testing.B) {
 }
 
 func TestProcessLine(t *testing.T) {
-	config, _ := NewConfig("magento2")
+	pwd, _ := os.Getwd()
+	config, _ := NewConfig(pwd + "/../testdata/magento2.yml")
 	provider := NewTestProvider()
 	mode := "anonymize"
 	eav := NewEav(config)
@@ -123,7 +124,8 @@ func TestProcessLine(t *testing.T) {
 }
 
 func TestEavProcessLine(t *testing.T) {
-	config, _ := NewConfig("magento2")
+	pwd, _ := os.Getwd()
+	config, _ := NewConfig(pwd + "/../testdata/magento2.yml")
 	provider := NewTestProvider()
 	mode := "map-eav"
 	eav := NewEav(config)

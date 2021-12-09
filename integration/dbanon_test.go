@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"path"
@@ -34,7 +35,12 @@ func TestDbanon(t *testing.T) {
 		t.Errorf("Got %s expected %s", res2, versRes)
 	}
 
-	cmdStr3 := "cat integration/magento_raw.sql | ./dbanon -config=magento2"
+	pwd, _ := os.Getwd()
+	configPath := pwd + "/testdata/magento2.yml"
+
+	fmt.Printf("cat integration/magento_raw.sql | ./dbanon -config=%s", configPath)
+
+	cmdStr3 := fmt.Sprintf("cat integration/magento_raw.sql | ./dbanon -config=%s", configPath)
 	cmd3 := exec.Command("bash", "-c", cmdStr3)
 	out3, _ := cmd3.CombinedOutput()
 	res3 := strings.TrimSpace(string(out3))
@@ -48,7 +54,7 @@ func TestDbanon(t *testing.T) {
 		t.Error("Expected no customer2LastName")
 	}
 
-	cmdStr4 := "cat integration/magento_eav_before.sql | ./dbanon -config=magento2 map-eav"
+	cmdStr4 := fmt.Sprintf("cat integration/magento_eav_before.sql | ./dbanon -config=%s map-eav", configPath)
 	cmd4 := exec.Command("bash", "-c", cmdStr4)
 	out4, _ := cmd4.CombinedOutput()
 	res4 := strings.TrimSpace(string(out4))
