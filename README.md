@@ -109,3 +109,17 @@ mysqldump mydb | dbanon -profile -config=myconfig.yml >/dev/null
 ```
 dbanon -update
 ```
+
+## Development
+
+### Publishing releases
+
+Releases are published with [GoReleaser](https://goreleaser.com/).
+
+- Create and push a tag (e.g. `git tag -a v0.6.2 -m "v0.6.2 && git push origin v0.6.2`)
+- Build the `go-bindata` (e.g. `go-bindata -pkg bindata -o bindata/bindata.go etc/*`)
+- Run `goreleaser` (e.g. `goreleaser release --rm-dist`)
+
+May need to create a new GitHub token if the current one expires
+
+https://goreleaser.com/scm/github/
