@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set Version
+        run: echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d'/' -f3)"
+
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
@@ -21,6 +24,9 @@ jobs:
       - name: Display Go version
         run: go version
 
-      - name: Run make
-        run: make
-
+      - name: Run build
+        run: |
+          go get -u github.com/shuLhan/go-bindata/...
+          $GOBIN/go-bindata -pkg bindata -o bindata/bindata.go etc/*
+          GO111MODULE=on go get ./...
+          GO111MODULE=on go build -ldflags "-X main.version=${VERSION}" -o dbanon main.go
