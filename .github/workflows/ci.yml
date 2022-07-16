@@ -23,7 +23,8 @@ jobs:
 
       - name: Run build
         run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
           go get -u github.com/shuLhan/go-bindata/...
-          $GOBIN/go-bindata -pkg bindata -o bindata/bindata.go etc/*
+          go-bindata -pkg bindata -o bindata/bindata.go etc/*
           GO111MODULE=on go get ./...
           GO111MODULE=on go build -ldflags "-X main.version=cibuild" -o dbanon main.go
