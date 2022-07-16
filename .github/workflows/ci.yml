@@ -21,10 +21,11 @@ jobs:
       - name: Display Go version
         run: go version
 
-      - name: Run build
+      - name: Run test and build
         run: |
           export PATH=$PATH:$(go env GOPATH)/bin
           go get -u github.com/shuLhan/go-bindata/...
           go-bindata -pkg bindata -o bindata/bindata.go etc/*
           GO111MODULE=on go get ./...
+          GO111MODULE=on go test -v ./...
           GO111MODULE=on go build -ldflags "-X main.version=cibuild" -o dbanon main.go
