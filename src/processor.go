@@ -28,7 +28,10 @@ func (p LineProcessor) ProcessLine(s string) string {
 }
 
 func (p LineProcessor) processInsert(s string) string {
-	stmt, _ := sqlparser.Parse(s)
+	stmt, err := sqlparser.Parse(s)
+	if err != nil {
+		return s
+	}
 	insert, ok := stmt.(*sqlparser.Insert)
 
 	// This _shouldn't happen but the statement might not be an Insert
