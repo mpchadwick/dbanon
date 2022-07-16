@@ -7,13 +7,13 @@ build:
 	go get -u github.com/shuLhan/go-bindata/...
 	go install github.com/shuLhan/go-bindata/v4/cmd/go-bindata@master
 	$$GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
-	GO111MODULE=on go get ./...
-	GO111MODULE=on go test -coverprofile=coverage.txt -covermode=atomic -race $$GOPATH/src/github.com/mpchadwick/dbanon/src
-	GO111MODULE=on go build -ldflags "$(LDFLAGS)" -o dbanon main.go
-	GO111MODULE=on go test $$GOPATH/src/github.com/mpchadwick/dbanon/integration
+	go get ./...
+	go test -coverprofile=coverage.txt -covermode=atomic -race $$GOPATH/src/github.com/mpchadwick/dbanon/src
+	go build -ldflags "$(LDFLAGS)" -o dbanon main.go
+	go test $$GOPATH/src/github.com/mpchadwick/dbanon/integration
 	rm -rf bindata
 
 bench:
 	$$GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
-	GO111MODULE=on go test -run=XXX -bench=. -benchtime=20s $$GOPATH/src/github.com/mpchadwick/dbanon/src
+	go test -run=XXX -bench=. -benchtime=20s $$GOPATH/src/github.com/mpchadwick/dbanon/src
 	rm -rf bindata
