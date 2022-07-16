@@ -4,7 +4,8 @@ LDFLAGS = -X main.version=$(VERSION)
 build:
 	rm -rf bindata
 	test -z $(shell gofmt -l ./)
-	GO111MODULE=off go get -u github.com/shuLhan/go-bindata/...
+	go get -u github.com/shuLhan/go-bindata/...
+	go install github.com/shuLhan/go-bindata/v4/cmd/go-bindata@master
 	$$GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
 	GO111MODULE=on go get ./...
 	GO111MODULE=on go test -coverprofile=coverage.txt -covermode=atomic -race $$GOPATH/src/github.com/mpchadwick/dbanon/src
