@@ -1,6 +1,6 @@
 # dbanon
 
-[![Build Status](https://github.com/mpchadwick/dbanon/actions/workflows/ci.yml/badge.svg)](https://travis-ci.org/mpchadwick/dbanon) [![codecov](https://codecov.io/gh/mpchadwick/dbanon/branch/master/graph/badge.svg)](https://codecov.io/gh/mpchadwick/dbanon)
+[![Build Status](https://github.com/mpchadwick/dbanon/actions/workflows/ci.yml/badge.svg)](https://github.com/mpchadwick/dbanon/actions) [![codecov](https://codecov.io/gh/mpchadwick/dbanon/branch/master/graph/badge.svg)](https://codecov.io/gh/mpchadwick/dbanon)
 
 A run-anywhere, dependency-less database anonymizer.
 
