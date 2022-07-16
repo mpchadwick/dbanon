@@ -79,6 +79,17 @@ func TestProcessLine(t *testing.T) {
 		t.Error("Got no 1337 wanted 1337")
 	}
 
+	// todod: Not really expecting to receive input like this, but there are several reports
+	// that the sqlparser.Parse is choking. Update this when we receive an example on
+	// one of these GitHub issues, or on any other new issue:
+	// https://github.com/mpchadwick/dbanon/issues/18
+	// https://github.com/mpchadwick/dbanon/issues/17
+	r3aInput := "INSERT INTO this is not valid sql"
+	r3aResult := processor.ProcessLine(r3aInput)
+	if r3aResult != r3aInput {
+		t.Errorf("Got %s wanted empty %s", r3aResult, r3aInput)
+	}
+
 	for _, e := range processor.Config.Eav {
 		if e.Name == "customer" {
 			e.Attributes["1"] = "firstname"
