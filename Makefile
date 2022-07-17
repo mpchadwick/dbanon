@@ -8,7 +8,7 @@ build:
 	go install github.com/shuLhan/go-bindata/v4/cmd/go-bindata@master
 	$$GOPATH/bin/go-bindata -pkg bindata -o bindata/bindata.go etc/*
 	go get ./...
-	go test -coverprofile=coverage.txt -covermode=atomic -race $$GOPATH/src/github.com/mpchadwick/dbanon/src
+	go test -coverprofile=coverage.out -covermode=atomic -race $$GOPATH/src/github.com/mpchadwick/dbanon/src
 	go build -ldflags "$(LDFLAGS)" -o dbanon main.go
 	go test $$GOPATH/src/github.com/mpchadwick/dbanon/integration
 	rm -rf bindata
