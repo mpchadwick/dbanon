@@ -23,6 +23,9 @@ jobs:
       - name: Display Go version
         run: go version
 
+      - name: Install cob
+        run: curl -sfL https://raw.githubusercontent.com/knqyf263/cob/master/install.sh | sudo sh -s -- -b /usr/local/bin
+
       - name: Run test and build
         run: |
           export PATH=$PATH:$(go env GOPATH)/bin
@@ -32,6 +35,9 @@ jobs:
           go get ./...
           go build -ldflags "-X main.version=$(git describe --tags)" -o dbanon main.go
           go test -coverprofile=coverage.out -covermode=atomic -race -v ./...
+
+      - name: Run Benchmark
+        run: cob
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
