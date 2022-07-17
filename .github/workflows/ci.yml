@@ -36,6 +36,9 @@ jobs:
           go build -ldflags "-X main.version=$(git describe --tags)" -o dbanon main.go
           go test -coverprofile=coverage.out -covermode=atomic -race -v ./...
 
+      - name: Run Git Status
+        run: git status
+
       - name: Run Benchmark
         run: cob
 
