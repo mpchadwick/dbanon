@@ -35,6 +35,8 @@ func selfUpdate() error {
 }
 
 func main() {
+	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+
 	requested := flag.String("config", "", "Configuration to use. magento2 is included out-of-box. Alternately, supply path to file")
 	update := flag.Bool("update", false, "Auto update dbanon to the newest version")
 	ver := flag.Bool("version", false, "Get current version")
