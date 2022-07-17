@@ -1,8 +1,8 @@
 package dbanon
 
 import (
-	"github.com/blastrain/vitess-sqlparser/sqlparser"
 	"strings"
+	"vitess.io/vitess/go/vt/sqlparser"
 )
 
 type LineProcessor struct {
@@ -69,9 +69,9 @@ func (p LineProcessor) processInsert(s string) string {
 			}
 
 			switch v := e.(type) {
-			case *sqlparser.SQLVal:
+			case *sqlparser.Literal:
 				if processor == "table" {
-					v.Val = []byte(p.Provider.Get(dataType))
+					v.Val = p.Provider.Get(dataType)
 				} else {
 					if column == "attribute_id" {
 						attributeId = string(v.Val)
@@ -80,7 +80,7 @@ func (p LineProcessor) processInsert(s string) string {
 						}
 					}
 					if column == "value" && result {
-						v.Val = []byte(p.Provider.Get(dataType))
+						v.Val = p.Provider.Get(dataType)
 					}
 					if p.Mode == "map-eav" {
 						if column == "entity_type_id" {
